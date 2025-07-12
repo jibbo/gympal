@@ -49,6 +49,7 @@
 		font-size:xx-large;
 		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
 		padding:0.5em;
+		text-align:center;
 	}
 	.round{
 		#background-color:#FFA726;
@@ -70,6 +71,7 @@
 		border-radius:0.3em;
 		color:white;
 		border:none;
+		min-width:2.5em;
 	}
 	.red{
 		background-color:red;
@@ -97,8 +99,8 @@
 			<h2>SETS: <span id="setsSpan"></span></h2>
 		</section>
 		<section id="input"> 
-			<button class="green" onClick="incSets()">+1</button>
 			<button class="red"  onClick="resetSets()">RESET</button>
+			<button class="green" onClick="incSets()">+1</button>
 		</section>
 		<section id="timer">
 			<audio id="alarmSound">
@@ -115,6 +117,7 @@
 				<button class="round col" onClick="startTimer(180)">3 min</button>
 			</div>
 			<div style="margin-top:2em">
+				<button id="audioToggle" class="red" onClick="toggleAudio()">OFF</button>
 				<button class="red" onClick="clearTimer()">STOP</button>
 			</div>
 		</section>
@@ -126,7 +129,8 @@
 	  // HTML elements
 	  const setsSpan = document.getElementById("setsSpan"); 
 	  const alarm = document.getElementById("alarmSound");
-	  const timerSpan = document.getElementById("timerSpan"); 
+	  const timerSpan = document.getElementById("timerSpan");
+	  const audioToggle = document.getElementById("audioToggle");
 	  
 	  // Browser functionalities
 	  const supportsLocalStorage = typeof Storage !== "undefined";
@@ -186,6 +190,42 @@
 	  }
 
 	  timerSpan.textContent = "00:00";
+
+	  // Audio
+	  let audioOn = supportsLocalStorage ? localStorage.getItem("audio")==true : false;
+	  const source = alarm.querySelector('source');
+
+	  function updateAudioToggleBtn(){
+		if(audioOn){
+			alarm.play();
+			source.src="digital_watch_alarm_long.mp3";
+			source.type="audio/mp3"
+			audioToggle.innerHTML = "ON"
+			audioToggle.classList.remove("red");
+			audioToggle.classList.add("green");
+		} else {
+			source.src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg";
+			source.type="audio/ogg"
+			audioToggle.innerHTML = "OFF";
+			audioToggle.classList.remove("green");
+			audioToggle.classList.add("red");
+		}
+	  }
+
+	  function toggleAudio(){
+		audioOn = !audioOn;
+		if(supportsLocalStorage){
+			localStorage.setItem("audio", audioOn);
+		}
+		updateAudioToggleBtn();
+	  }
+
+	  updateAudioToggleBtn();
+
+	// iPhone shit
+	function isIOS() {
+		return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document));
+	}
   </script>
 </body>
 </html>
