@@ -71,7 +71,7 @@
 		border-radius:0.3em;
 		color:white;
 		border:none;
-		min-width:2.5em;
+		min-width:1em;
 	}
 	.red{
 		background-color:red;
@@ -88,6 +88,12 @@
 		flex:1;
 		margin:0.3em;
 	}
+	.size-6{
+		min-width:0.8em;
+	}
+	.hide{
+		display:none;
+	}
   </style>
 </head>
 <body>
@@ -95,6 +101,16 @@
 		<h1>GymPal</h1>
 	</header>
 	<main>
+		<section id="audio">
+			<audio id="alarmSound">
+				<source src="digital_watch_alarm_long.ogg" type="audio/ogg">
+				Your browser does not support the audio element.
+			</audio>
+			<audio id="beepSound">
+				<source src="beep_short.ogg" type="audio/ogg">
+				Your browser does not support the audio element.
+			</audio>
+		</section>
 		<section id="output">
 			<h2>SETS: <span id="setsSpan"></span></h2>
 		</section>
@@ -103,10 +119,6 @@
 			<button class="green" onClick="incSets()">+1</button>
 		</section>
 		<section id="timer">
-			<audio id="alarmSound">
-				<source src="digital_watch_alarm_long.mp3" type="audio/mp3">
-				Your browser does not support the audio element.
-			</audio>
 			<h2>Timer: <span id="timerSpan"></span></h2>
 			<div class="row">
 				<button class="round col" onClick="startTimer(60)">1 min</button>
@@ -117,7 +129,15 @@
 				<button class="round col" onClick="startTimer(180)">3 min</button>
 			</div>
 			<div style="margin-top:2em">
-				<button id="audioToggle" class="red" onClick="toggleAudio()">OFF</button>
+				<button id="audioToggle" class="red" onClick="toggleAudio()">
+					<svg id="speakerWave" class="size-6 hide" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+					</svg>
+					<svg id="speakerNone" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+					</svg>
+				</button>
+<!-- 				<button class="red" onClick="test()">SUONA</button> -->
 				<button class="red" onClick="clearTimer()">STOP</button>
 			</div>
 		</section>
@@ -129,11 +149,21 @@
 	  // HTML elements
 	  const setsSpan = document.getElementById("setsSpan"); 
 	  const alarm = document.getElementById("alarmSound");
+	  const beep = document.getElementById("beepSound");
+	  const source = alarm.querySelector('source');
 	  const timerSpan = document.getElementById("timerSpan");
 	  const audioToggle = document.getElementById("audioToggle");
+	  const speakerWave = document.getElementById("speakerWave");
+	  const speakerNone = document.getElementById("speakerNone");
+
 	  
 	  // Browser functionalities
 	  const supportsLocalStorage = typeof Storage !== "undefined";
+
+	  // iPhone shit
+	  function isIOS() {
+		return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document));
+	  }
 	  
 	  // Sets
 	  const stored = supportsLocalStorage ? localStorage.getItem("sets") : null;
@@ -184,31 +214,36 @@
 	  function clearTimer() {
 		  clearInterval(timerId);
 		  alarmMs = 0;
-		  timerSpan.textContent = "00:00";
+		  timerSpan.textContent = "0:00";
 		  alarm.pause();
 		  alarm.currentTime = 0;
 	  }
 
-	  timerSpan.textContent = "00:00";
+	  timerSpan.textContent = "0:00";
 
 	  // Audio
-	  let audioOn = supportsLocalStorage ? localStorage.getItem("audio")==true : false;
-	  const source = alarm.querySelector('source');
+	  const defaultAudio = isIOS() ? false : true;
+	  const storedAudio = supportsLocalStorage ? localStorage.getItem("audio") : defaultAudio;
+	  let audioOn = storedAudio == null ? defaultAudio : storedAudio;
 
 	  function updateAudioToggleBtn(){
-		if(audioOn){
-			alarm.play();
+	  console.log("update", audioOn);
+		if(audioOn==true){
 			source.src="digital_watch_alarm_long.mp3";
 			source.type="audio/mp3"
-			audioToggle.innerHTML = "ON"
+			alarm.load();
 			audioToggle.classList.remove("red");
 			audioToggle.classList.add("green");
+			speakerNone.classList.add("hide");
+			speakerWave.classList.remove("hide");
 		} else {
 			source.src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg";
 			source.type="audio/ogg"
-			audioToggle.innerHTML = "OFF";
+			alarm.load();
 			audioToggle.classList.remove("green");
 			audioToggle.classList.add("red");
+			speakerNone.classList.remove("hide");
+			speakerWave.classList.add("hide")
 		}
 	  }
 
@@ -217,15 +252,18 @@
 		if(supportsLocalStorage){
 			localStorage.setItem("audio", audioOn);
 		}
+		if(audioOn){
+			beep.play()
+		}
 		updateAudioToggleBtn();
 	  }
 
 	  updateAudioToggleBtn();
 
-	// iPhone shit
-	function isIOS() {
-		return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document));
-	}
+	  // testing
+	  function test(){
+	  alarm.play();
+	  }
   </script>
 </body>
 </html>
