@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gym Pal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+	html{
+		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
+	}
+	html, body {
+		height: 100%;
+	}
+	body {
+		background: #333;
+		color:white;
+		display:flex;
+		flex-direction: column;
+	}
+	main {
+		flex: 1;
+		margin: 1em auto;
+		text-align:center;
+	}
+	h2{
+		font-size:xxx-large;
+	}
+	header, footer {
+		text-align: center;
+	}
+	header {
+		border-bottom:1px solid #ccc;
+	}
+	footer {
+		border-top:1px solid #ccc;
+	}
+	section{
+		margin:1em;
+	}
+	button {
+		font-size:xx-large;
+		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
+		padding:0.5em;
+	}
+	.round{
+		#background-color:#FFA726;
+		#background: radial-gradient(#FFA726, #E65100);
+		width:3.2m;
+		height:3.2em;
+		border-radius:50%;
+		text-align:center;
+		border:2px solid #FFA726;
+		background-color:#333;
+		color:white;
+		font-size: clamp(xx-large,5wv,xxx-large)
+	}
+	.round:active{
+		background-color:#FFA726;
+	}
+	.green {
+		background-color:#6BF216;
+		border-radius:0.3em;
+		color:white;
+		border:none;
+	}
+	.red{
+		background-color:red;
+		border:none;
+		color:white;
+		border-radius:0.3em;
+	}
+	.row{
+		display:flex;
+		flex-direction:row;
+		gap:1em;
+	}
+	.col{
+		flex:1;
+		margin:0.3em;
+	}
+  </style>
+</head>
+<body>
+	<header>
+		<h1>GymPal</h1>
+	</header>
+	<main>
+		<section id="output">
+			<h2>SETS: <span id="setsSpan"></span></h2>
+		</section>
+		<section id="input"> 
+			<button class="green" onClick="incSets()">+1</button>
+			<button class="red"  onClick="resetSets()">RESET</button>
+		</section>
+		<section id="timer">
+			<audio id="alarmSound">
+				<source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
+				Your browser does not support the audio element.
+			</audio>
+			<h2>Timer: <span id="timerSpan"></span></h2>
+			<div class="row">
+				<button class="round col" onClick="startTimer(60)">1 min</button>
+				<button class="round col" onClick="startTimer(90)">1:30 min</button>
+			</div>
+			<div class="row">
+				<button class="round col" onClick="startTimer(120)">2 min</button>
+				<button class="round col" onClick="startTimer(180)">3 min</button>
+			</div>
+			<div style="margin-top:2em">
+				<button class="red" onClick="clearTimer()">STOP</button>
+			</div>
+		</section>
+	</main>
+	<footer>
+		<p>Created with &lt3 by Jibbo</p>
+	</footer>
+  <script>
+	  // HTML elements
+	  const setsSpan = document.getElementById("setsSpan"); 
+	  const alarm = document.getElementById("alarmSound");
+	  const timerSpan = document.getElementById("timerSpan"); 
+	  
+	  // Browser functionalities
+	  const supportsLocalStorage = typeof Storage !== "undefined";
+	  
+	  // Sets
+	  const stored = supportsLocalStorage ? localStorage.getItem("sets") : null;
+	  let sets = stored !== null ? parseInt(stored, 10) : 0;
+	  function incSets() {
+		  sets++;
+		  if (supportsLocalStorage) {
+			  localStorage.setItem("sets", sets);
+		  }
+		  setsSpan.textContent = sets;
+	  }
+	  function resetSets() {
+		  sets=0;
+		  if (supportsLocalStorage) {
+			  localStorage.setItem("sets", sets);
+		  }
+		  setsSpan.textContent = sets;
+	  }
+	  setsSpan.textContent = sets;
+
+	  // Timer
+	  let alarmMs = 0;
+	  let timerId = -1;
+
+	  function formatSeconds(seconds) {
+		  const m = Math.floor(seconds / 60);
+		  const s = seconds % 60;
+		  return `${m}:${s.toString().padStart(2, '0')}`;
+	  }
+
+	  function startTimer(seconds) {
+		  alarmMs = seconds * 1000;
+		  if(timerId >= 0){
+		  	clearInterval(timerId); // prevent multiple timers
+		  }
+		  timerId = setInterval(() => {
+			  alarmMs = alarmMs - 1000;
+			  timerSpan.textContent = formatSeconds(alarmMs/1000);
+			  if (alarmMs <= 0) {
+				  clearInterval(timerId);
+				  alarm.play();
+			  }
+		  }, 1000);
+
+		  timerSpan.textContent = formatSeconds(seconds);
+	  }
+	  
+	  function clearTimer() {
+		  clearInterval(timerId);
+		  alarmMs = 0;
+		  timerSpan.textContent = "00:00";
+	  }
+
+	  timerSpan.textContent = "00:00";
+  </script>
+</body>
+</html>
