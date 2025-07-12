@@ -181,6 +181,8 @@
 		  clearInterval(timerId);
 		  alarmMs = 0;
 		  timerSpan.textContent = "00:00";
+		  alarm.pause();
+		  alarm.currentTime = 0;
 	  }
 
 	  timerSpan.textContent = "00:00";
