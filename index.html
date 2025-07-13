@@ -146,7 +146,7 @@
 		</section>
 	</main>
 	<footer>
-		<p>Created with &lt3 by Jibbo - no Iphone v0</p>
+		<p>Created with &lt3 by Jibbo - no Iphone v1</p>
 	</footer>
   <script>
 	  // HTML elements
@@ -231,17 +231,11 @@
 
 	  function updateAudioToggleBtn(){
 		if(audioOn==true){
-			source.src="digital_watch_alarm_long.mp3";
-			source.type="audio/mp3"
-			alarm.load();
 			audioToggle.classList.remove("red");
 			audioToggle.classList.add("green");
 			speakerNone.classList.add("hide");
 			speakerWave.classList.remove("hide");
 		} else {
-			source.src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg";
-			source.type="audio/ogg"
-			alarm.load();
 			audioToggle.classList.remove("green");
 			audioToggle.classList.add("red");
 			speakerNone.classList.remove("hide");
@@ -255,10 +249,13 @@
 			localStorage.setItem("audio", audioOn);
 		}
 		if(audioOn){
-			alarm.play()
-			alarm.pause()
-			alarm.currentTime = 0;
-			beep.play();
+			if(isIOS()){
+				alarm.play()
+				//alarm.pause()
+				//alarm.currentTime = 0;
+			}else{
+				beep.play();
+			}
 		}
 		updateAudioToggleBtn();
 	  }
