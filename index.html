@@ -106,11 +106,7 @@
 	<main>
 		<section id="audio">
 			<audio id="alarmSound">
-				<source src="beep_short.ogg" type="audio/ogg">
-				Your browser does not support the audio element.
-			</audio>
-			<audio id="beepSound">
-				<source src="beep_short.ogg" type="audio/ogg">
+				<source src="digital_watch_alarm_long.ogg" type="audio/ogg">
 				Your browser does not support the audio element.
 			</audio>
 		</section>
@@ -152,7 +148,6 @@
 	  // HTML elements
 	  const setsSpan = document.getElementById("setsSpan"); 
 	  const alarm = document.getElementById("alarmSound");
-	  const beep = document.getElementById("beepSound");
 	  const source = alarm.querySelector('source');
 	  const timerSpan = document.getElementById("timerSpan");
 	  const audioToggle = document.getElementById("audioToggle");
@@ -225,9 +220,11 @@
 	  timerSpan.textContent = "0:00";
 
 	  // Audio
-	  const defaultAudio = isIOS() ? false : true;
-	  const storedAudio = supportsLocalStorage ? localStorage.getItem("audio") : defaultAudio;
-	  let audioOn = storedAudio == null ? defaultAudio : storedAudio;
+	  const storedAudio = supportsLocalStorage ? localStorage.getItem("audio") : true;
+	  let audioOn = storedAudio == null ? true : storedAudio;
+	  if(isIOS()){
+		audioOn = false;
+	  }
 
 	  function updateAudioToggleBtn(){
 		if(audioOn==true){
@@ -245,17 +242,13 @@
 
 	  function toggleAudio(){
 		audioOn = !audioOn;
+		console.log("toggle",audioOn);
 		if(supportsLocalStorage){
 			localStorage.setItem("audio", audioOn);
 		}
 		if(audioOn){
-			if(isIOS()){
-				alarm.play()
-				alarm.pause()
-				alarm.currentTime = 0;
-			}else{
-				beep.play();
-			}
+			alarm.play();
+			setInterval(()=>{alarm.pause();alarm.currentTime=0}, 500);
 		}
 		updateAudioToggleBtn();
 	  }
@@ -264,7 +257,7 @@
 
 	  // testing
 	  function test(){
-	  alarm.play();
+		alarm.play();
 	  }
   </script>
 </body>
