@@ -238,7 +238,7 @@
 		if(supportsLocalStorage){
 			localStorage.setItem("audio", audioOn);
 		}
-		if(audioOn){
+		if(audioOn && isIOS()){
 			alarm.play();
 			setInterval(()=>{alarm.pause(); alarm.currentTime=0; alarm.load()}, 951);
 		}
