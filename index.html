@@ -194,6 +194,7 @@
 	  // Timer
 	  let alarmMs = 0;
 	  let timerId = -1;
+	  let wakeLock = null;
 
 	  function formatSeconds(seconds, suffix) {
 		  if(seconds>=60){
@@ -209,12 +210,14 @@
 		  if(timerId >= 0){
 		  	clearInterval(timerId); // prevent multiple timers
 		  }
+		  requestWakeLock();
 		  timerId = setInterval(() => {
 			  alarmMs = alarmMs - 1000;
 			  timerSpan.textContent = formatSeconds(alarmMs/1000);
 			  if (alarmMs <= 0) {
 				  clearInterval(timerId);
 				  alarm.play();
+				  releaseWakeLock();
 			  }
 		  }, 1000);
 
@@ -227,6 +230,7 @@
 		  timerSpan.textContent = "0:00";
 		  alarm.pause();
 		  alarm.currentTime = 0;
+		  releaseWakeLock();
 	  }
 
 	  function addTimer() {
@@ -235,6 +239,24 @@
 			saveCustomTimer(parseInt(timer));
 			displayCustomTimer(timer);
 		  }
+	  }
+
+	  function requestWakeLock(){
+		  if ("wakeLock" in navigator) {
+		  	try{
+				if(wakeLock == null){
+					wakeLock = await navigator.wakeLock.request("timer");
+				}
+			} catch (err){
+				console.log(err);
+			}
+		  }
+	  }
+
+	  function releaseWakeLock(){
+		if(wakeLock != null){
+			wakeLock.release()
+		}
 	  }
 
 	  timerSpan.textContent = "0:00";
