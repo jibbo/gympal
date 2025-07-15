@@ -192,7 +192,7 @@
 	  setsSpan.textContent = sets;
 
 	  // Timer
-	  let alarmMs = 0;
+	  let alarmMs = null;
 	  let timerId = -1;
 	  let wakeLock = null;
 
@@ -206,15 +206,17 @@
 	  }
 
 	  function startTimer(seconds) {
-		  alarmMs = seconds * 1000;
+		  alarmMs = new Date;
+		  alarmMs.setSeconds(alarmMs.getSeconds() + seconds);
 		  if(timerId >= 0){
 		  	clearInterval(timerId); // prevent multiple timers
 		  }
 		  requestWakeLock();
 		  timerId = setInterval(() => {
-			  alarmMs = alarmMs - 1000;
-			  timerSpan.textContent = formatSeconds(alarmMs/1000);
-			  if (alarmMs <= 0) {
+			  let diffTime = (alarmMs.getTime() - (new Date()).getTime())/1000;
+			  timerSpan.textContent = formatSeconds(parseInt(diffTime));
+			  if (diffTime <= 0) {
+				  timerSpan.textContent = formatSeconds(0);
 				  clearInterval(timerId);
 				  alarm.play();
 				  releaseWakeLock();
@@ -241,11 +243,11 @@
 		  }
 	  }
 
-	  function requestWakeLock(){
+	  async function requestWakeLock(){
 		  if ("wakeLock" in navigator) {
 		  	try{
 				if(wakeLock == null){
-					wakeLock = await navigator.wakeLock.request("timer");
+					wakeLock = await navigator.wakeLock.request("screen");
 				}
 			} catch (err){
 				console.log(err);
