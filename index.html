@@ -195,9 +195,9 @@
 		  if(seconds>=60){
 			const m = Math.floor(seconds / 60);
 			const s = seconds % 60;
-			return `${m}:${s.toString().padStart(2, '0')}`+ (suffix == null ? " min": "");
+			return `${m}:${s.toString().padStart(2, '0')}`+ (suffix == true ? " min": "");
 		  }
-		  return seconds + (suffix == null ? " sec" : "");
+		  return seconds + (suffix == true ? " sec" : "");
 	  }
 
 	  function startTimer(seconds) {
@@ -207,7 +207,7 @@
 		  }
 		  timerId = setInterval(() => {
 			  alarmMs = alarmMs - 1000;
-			  timerSpan.textContent = formatSeconds(alarmMs/1000, false);
+			  timerSpan.textContent = formatSeconds(alarmMs/1000, true);
 			  if (alarmMs <= 0) {
 				  clearInterval(timerId);
 				  alarm.play();
@@ -227,8 +227,8 @@
 
 	  function addTimer() {
 		  let timer = prompt("Timer in seconds");
-		  if(timer != null && int(timer) > 0){
-			saveCustomTimer(int(timer));
+		  if(timer != null && parseInt(timer) > 0){
+			saveCustomTimer(parseInt(timer));
 			displayCustomTimer(timer);
 		  }
 	  }
