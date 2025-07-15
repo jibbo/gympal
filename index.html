@@ -221,7 +221,7 @@
 				  alarm.play();
 				  releaseWakeLock();
 			  }
-		  }, 1000);
+		  }, 500);
 
 		  timerSpan.textContent = formatSeconds(seconds);
 	  }
@@ -311,6 +311,14 @@
 			}
 			return false;
 		  })
+		  button.addEventListener("contextmenu", ()=>{
+			let confirmation = confirm("Delete?")
+			if(confirmation){
+				removeCustomTimer(timer);
+				customTimersContainer.removeChild(button);
+			}
+			return false;
+		  });
 		  customTimersContainer.appendChild(button);
 	  }
 
