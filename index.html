@@ -127,14 +127,15 @@
 		</section>
 		<section id="timer">
 			<h2>Timer: <span id="timerSpan"></span></h2>
-			<div class="row">
+			<div id="customTimers" class="row">
+				<button id="addTimer" class="round border-dashed col" onClick="addTimer()">+</button>
+			</div>
+			<div id="standardTimers" class="row hide">
 				<button class="round col" onClick="startTimer(30)">30 sec</button>
 				<button class="round col" onClick="startTimer(60)">1 min</button>
 				<button class="round col" onClick="startTimer(90)">1:30 min</button>
 				<button class="round col" onClick="startTimer(120)">2 min</button>
 				<button class="round col" onClick="startTimer(180)">3 min</button>
-				<span id="customTimers"></span>
-				<button class="round border-dashed  col" onClick="addTimer()">+</button>
 			</div>
 			<div style="margin-top:2em">
 <!-- 				<button onClick="test()">SUONA</button> -->
@@ -163,6 +164,8 @@
 	  const speakerWave = document.getElementById("speakerWave");
 	  const speakerNone = document.getElementById("speakerNone");
 	  const customTimersContainer = document.getElementById("customTimers");
+	  const standardTimersContainer = document.getElementById("standardTimers");
+	  const addTimerBtn =  document.getElementById("addTimer");
 	  
 	  // Browser functionalities
 	  const supportsLocalStorage = typeof Storage !== "undefined";
@@ -266,6 +269,19 @@
 	  // Custom Timers
 	  const storedTimers = supportsLocalStorage ? localStorage.getItem("timers") : [];
 	  let customTimers = storedTimers == null ? [] : JSON.parse(storedTimers);
+	 
+	  if(!supportsLocalStorage){
+	  	standardTimers.classList.remove("hide");
+	  }
+	  else if(supportsLocalStorage && (storedTimers == null)){
+		  saveCustomTimer(30);
+		  saveCustomTimer(60);
+		  saveCustomTimer(120);
+		  saveCustomTimer(180);
+		  customTimers = [30, 60, 120, 180];
+	  }else{
+		 customTimers.sort();
+	  }
 
 	  function saveCustomTimer(timer){
 		if(supportsLocalStorage){
@@ -319,8 +335,10 @@
 			}
 			return false;
 		  });
-		  customTimersContainer.appendChild(button);
+		  customTimersContainer.insertBefore(button, addTimerBtn);
 	  }
+
+	  
 
 	  customTimers.forEach((item, index) => {
 		  displayCustomTimer(item);
