@@ -243,11 +243,11 @@
 		  }
 	  }
 
-	  async function requestWakeLock(){
+	  function requestWakeLock(){
 		  if ("wakeLock" in navigator) {
 		  	try{
 				if(wakeLock == null){
-					wakeLock = await navigator.wakeLock.request("screen");
+					wakeLock = navigator.wakeLock.request();
 				}
 			} catch (err){
 				console.log(err);
