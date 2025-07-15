@@ -191,13 +191,13 @@
 	  let alarmMs = 0;
 	  let timerId = -1;
 
-	  function formatSeconds(seconds) {
+	  function formatSeconds(seconds, suffix) {
 		  if(seconds>=60){
 			const m = Math.floor(seconds / 60);
 			const s = seconds % 60;
-			return `${m}:${s.toString().padStart(2, '0')} min`;
+			return `${m}:${s.toString().padStart(2, '0')}`+ (suffix == null ? " min": "");
 		  }
-		  return seconds + " sec";
+		  return seconds + (suffix == null ? " sec" : "");
 	  }
 
 	  function startTimer(seconds) {
@@ -207,7 +207,7 @@
 		  }
 		  timerId = setInterval(() => {
 			  alarmMs = alarmMs - 1000;
-			  timerSpan.textContent = formatSeconds(alarmMs/1000);
+			  timerSpan.textContent = formatSeconds(alarmMs/1000, false);
 			  if (alarmMs <= 0) {
 				  clearInterval(timerId);
 				  alarm.play();
@@ -252,12 +252,37 @@
 		}
 	  }
 
+	  function removeCustomTimer(timer){
+		if(supportsLocalStorage){
+			let list = localStorage.getItem("timers");
+			if(list != null){
+				list = JSON.parse(list);
+				const index = list.indexOf(timer);
+				if(index > -1){
+					list.splice(index, 1);
+					localStorage.setItem("timers", JSON.stringify(list));
+				}
+			}
+		}
+	  }
+
 	  function displayCustomTimer(timer){
 		  let button = document.createElement("button");
 		  let timerLabel = formatSeconds(timer);
 		  button.innerHTML = timerLabel;
 		  button.classList.add("round");
 		  button.classList.add("col");
+		  button.addEventListener("click", ()=>{
+			startTimer(timer);
+		  });
+		  onLongPress(button, ()=>{
+			let confirmation = confirm("Delete?")
+			if(confirmation){
+				removeCustomTimer(timer);
+				customTimersContainer.removeChild(button);
+			}
+			return false;
+		  })
 		  customTimersContainer.appendChild(button);
 	  }
 
@@ -295,6 +320,26 @@
 	  }
 
 	  updateAudioToggleBtn();
+
+	  // mobile support
+	  function onLongPress(element, callback) {
+		let timer;
+
+		element.addEventListener('touchstart', () => {
+			timer = setTimeout(() => {
+				timer = null;
+				callback();
+				return false;
+			}, 500);
+		});
+
+		function cancel() {
+			clearTimeout(timer);
+		}
+
+		element.addEventListener('touchend', cancel);
+		element.addEventListener('touchmove', cancel);
+	}
 
 	  // testing
 	  function test(){
