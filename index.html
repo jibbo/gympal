@@ -80,14 +80,19 @@
 		background-color:#EFFF04;
 		color:black;
 	}
+	.border-dashed{
+		border:2px dashed #CFFF04;
+	}
 	.row{
 		display:flex;
 		flex-direction:row;
 		flex-wrap:wrap;
 		gap:1em;
+		justify-content:center;
 	}
 	.col{
 		flex:1 1 auto;
+		max-width: 3em;
 		margin:0.3em;
 	}
 	.size-6{
@@ -119,12 +124,13 @@
 		<section id="timer">
 			<h2>Timer: <span id="timerSpan"></span></h2>
 			<div class="row">
+				<button class="round col" onClick="startTimer(30)">30 sec</button>
 				<button class="round col" onClick="startTimer(60)">1 min</button>
 				<button class="round col" onClick="startTimer(90)">1:30 min</button>
-			<!--</div>
-			<div class="row"> -->
 				<button class="round col" onClick="startTimer(120)">2 min</button>
 				<button class="round col" onClick="startTimer(180)">3 min</button>
+				<span id="customTimers"></span>
+				<button class="round border-dashed  col" onClick="addTimer()">+</button>
 			</div>
 			<div style="margin-top:2em">
 <!-- 				<button onClick="test()">SUONA</button> -->
@@ -152,7 +158,7 @@
 	  const audioToggle = document.getElementById("audioToggle");
 	  const speakerWave = document.getElementById("speakerWave");
 	  const speakerNone = document.getElementById("speakerNone");
-
+	  const customTimersContainer = document.getElementById("customTimers");
 	  
 	  // Browser functionalities
 	  const supportsLocalStorage = typeof Storage !== "undefined";
@@ -186,9 +192,12 @@
 	  let timerId = -1;
 
 	  function formatSeconds(seconds) {
-		  const m = Math.floor(seconds / 60);
-		  const s = seconds % 60;
-		  return `${m}:${s.toString().padStart(2, '0')}`;
+		  if(seconds>=60){
+			const m = Math.floor(seconds / 60);
+			const s = seconds % 60;
+			return `${m}:${s.toString().padStart(2, '0')} min`;
+		  }
+		  return seconds + " sec";
 	  }
 
 	  function startTimer(seconds) {
@@ -216,7 +225,45 @@
 		  alarm.currentTime = 0;
 	  }
 
+	  function addTimer() {
+		  let timer = prompt("Timer in seconds");
+		  if(timer != null && int(timer) > 0){
+			saveCustomTimer(int(timer));
+			displayCustomTimer(timer);
+		  }
+	  }
+
 	  timerSpan.textContent = "0:00";
+
+	  // Custom Timers
+	  const storedTimers = supportsLocalStorage ? localStorage.getItem("timers") : [];
+	  let customTimers = storedTimers == null ? [] : JSON.parse(storedTimers);
+
+	  function saveCustomTimer(timer){
+		if(supportsLocalStorage){
+			let list = localStorage.getItem("timers");
+			if(list != null){
+				list = JSON.parse(list);
+				list.push(timer);
+			}else{
+				list = [timer];
+			}
+			localStorage.setItem("timers", JSON.stringify(list));
+		}
+	  }
+
+	  function displayCustomTimer(timer){
+		  let button = document.createElement("button");
+		  let timerLabel = formatSeconds(timer);
+		  button.innerHTML = timerLabel;
+		  button.classList.add("round");
+		  button.classList.add("col");
+		  customTimersContainer.appendChild(button);
+	  }
+
+	  customTimers.forEach((item, index) => {
+		  displayCustomTimer(item);
+	  });
 
 	  // Audio
 	  const storedAudio = supportsLocalStorage ? localStorage.getItem("audio") : true;
