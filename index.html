@@ -273,7 +273,7 @@
 	  if(!supportsLocalStorage){
 	  	standardTimers.classList.remove("hide");
 	  }
-	  else if(supportsLocalStorage && (storedTimers == null)){
+	  else if(supportsLocalStorage && (customTimers.length == 0)){
 		  saveCustomTimer(30);
 		  saveCustomTimer(60);
 		  saveCustomTimer(120);
