@@ -207,7 +207,7 @@
 		  }
 		  timerId = setInterval(() => {
 			  alarmMs = alarmMs - 1000;
-			  timerSpan.textContent = formatSeconds(alarmMs/1000, true);
+			  timerSpan.textContent = formatSeconds(alarmMs/1000);
 			  if (alarmMs <= 0) {
 				  clearInterval(timerId);
 				  alarm.play();
@@ -268,7 +268,7 @@
 
 	  function displayCustomTimer(timer){
 		  let button = document.createElement("button");
-		  let timerLabel = formatSeconds(timer);
+		  let timerLabel = formatSeconds(timer, true);
 		  button.innerHTML = timerLabel;
 		  button.classList.add("round");
 		  button.classList.add("col");
