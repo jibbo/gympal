@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Gym Pal</title>
+  <title>GymFocus</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="HandheldFriendly" content="true" />
@@ -34,19 +34,17 @@
 	}
 	main {
 		flex: 1;
-		margin: 1em auto;
+		margin: 0 auto;
 		text-align:center;
+	}
+	header > h1 {
+		margin:0 0 0 0.5em;
 	}
 	h2{
 		font-size:xxx-large;
 	}
-	header, footer {
-		text-align: center;
-	}
-	header {
-		border-bottom:1px solid #ccc;
-	}
 	footer {
+		text-align: center;
 		border-top:1px solid #ccc;
 	}
 	section{
@@ -56,11 +54,10 @@
 		background-color:#CFFF04;
 		font-size:xx-large;
 		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
-		padding:0.5em;
+		padding:1em;
 		text-align:center;
-		border-radius:0.3em;
+		border-radius:2em;
 		border:none;
-		min-width:1em;
 		color:black;
 		cursor:pointer;
 		appearance: none;
@@ -78,6 +75,7 @@
 		border:2px solid #CFFF04;
 		background-color:#333;
 		color:#CFFF04;
+		padding:0.5em;
 		font-size: clamp(xx-large,5wv,xxx-large)
 	}
 	.round:active,.round:hover{
@@ -215,14 +213,15 @@
 	  }
 
 	  function startTimer(seconds) {
-		  alarmMs = new Date;
-		  alarmMs.setSeconds(alarmMs.getSeconds() + seconds);
 		  if(timerId >= 0){
 		  	clearInterval(timerId); // prevent multiple timers
 		  }
-		  requestWakeLock();
+		  alarmMs = new Date();
+		  alarmMs.setTime(alarmMs.getTime() + seconds*1000);
 		  timerId = setInterval(() => {
-			  let diffTime = (alarmMs.getTime() - (new Date()).getTime())/1000;
+			  requestWakeLock();
+			  let tempDate = new Date();
+			  let diffTime = (alarmMs.getTime() - tempDate.getTime())/1000;
 			  timerSpan.textContent = formatSeconds(parseInt(diffTime));
 			  if (diffTime <= 0) {
 				  timerSpan.textContent = formatSeconds(0);
@@ -237,7 +236,7 @@
 	  
 	  function clearTimer() {
 		  clearInterval(timerId);
-		  alarmMs = 0;
+		  alarmMs = null;
 		  timerSpan.textContent = "0:00";
 		  alarm.pause();
 		  alarm.currentTime = 0;
@@ -259,14 +258,19 @@
 					wakeLock = navigator.wakeLock.request();
 				}
 			} catch (err){
-				console.log(err);
+				console.error(err);
 			}
 		  }
 	  }
 
 	  function releaseWakeLock(){
 		if(wakeLock != null){
-			wakeLock.release()
+			try{
+				wakeLock.then(wls => wls.release());
+				wakeLock = null;
+			}catch (err){
+				console.error(err);
+			}
 		}
 	  }
 
@@ -286,7 +290,7 @@
 		  saveCustomTimer(180);
 		  customTimers = [30, 60, 120, 180];
 	  }else{
-		 customTimers.sort();
+		  customTimers.sort((a,b)=>a-b);
 	  }
 
 	  function saveCustomTimer(timer){
@@ -295,6 +299,7 @@
 			if(list != null){
 				list = JSON.parse(list);
 				list.push(timer);
+				list.sort((a,b)=>a-b);
 			}else{
 				list = [timer];
 			}
@@ -317,31 +322,31 @@
 	  }
 
 	  function displayCustomTimer(timer){
-		  let button = document.createElement("button");
-		  let timerLabel = formatSeconds(timer, true);
-		  button.innerHTML = timerLabel;
-		  button.classList.add("round");
-		  button.classList.add("col");
-		  button.addEventListener("click", ()=>{
-			startTimer(timer);
-		  });
-		  onLongPress(button, ()=>{
-			let confirmation = confirm("Delete?")
-			if(confirmation){
-				removeCustomTimer(timer);
-				customTimersContainer.removeChild(button);
-			}
-			return false;
-		  })
-		  button.addEventListener("contextmenu", ()=>{
-			let confirmation = confirm("Delete?")
-			if(confirmation){
-				removeCustomTimer(timer);
-				customTimersContainer.removeChild(button);
-			}
-			return false;
-		  });
-		  customTimersContainer.insertBefore(button, addTimerBtn);
+	  	let button = document.createElement("button");
+	  	let timerLabel = formatSeconds(timer, true);
+	  	button.innerHTML = timerLabel;
+	  	button.classList.add("round");
+	  	button.classList.add("col");
+	  	button.addEventListener("click", ()=>{
+	  		startTimer(timer);
+	  	});
+	  	onLongPress(button, ()=>{
+	  		let confirmation = confirm("Delete?")
+	  		if(confirmation){
+	  			removeCustomTimer(timer);
+	  			customTimersContainer.removeChild(button);
+	  		}
+	  		return false;
+	  	})
+	  	button.addEventListener("contextmenu", ()=>{
+	  		let confirmation = confirm("Delete?")
+	  		if(confirmation){
+	  			removeCustomTimer(timer);
+	  			customTimersContainer.removeChild(button);
+	  		}
+	  		return false;
+	  	});
+	  	customTimersContainer.insertBefore(button, addTimerBtn);
 	  }
 
 	  
