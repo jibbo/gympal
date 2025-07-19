@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Gym Pal</title>
+  <title>GymFocus</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="HandheldFriendly" content="true" />
@@ -16,8 +16,12 @@
 	*{
 	  touch-action: manipulation;
 	}
+	::-webkit-scrollbar {
+	  display: none;
+	}
 	html{
 		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
+		scrollbar-width: none;
 	}
 	html, body {
 		height: 100%;
@@ -30,19 +34,17 @@
 	}
 	main {
 		flex: 1;
-		margin: 1em auto;
+		margin: 0 auto;
 		text-align:center;
+	}
+	header > h1 {
+		margin:0 0 0 0.5em;
 	}
 	h2{
 		font-size:xxx-large;
 	}
-	header, footer {
-		text-align: center;
-	}
-	header {
-		border-bottom:1px solid #ccc;
-	}
 	footer {
+		text-align: center;
 		border-top:1px solid #ccc;
 	}
 	section{
@@ -52,11 +54,12 @@
 		background-color:#CFFF04;
 		font-size:xx-large;
 		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
-		padding:0.5em;
+		padding:0.75em;
 		text-align:center;
-		border-radius:0.3em;
+		border-radius:0.5em;
 		border:none;
-		min-width:1em;
+		color:black;
+		cursor:pointer;
 		appearance: none;
 		-webkit-appearance:none;
 	}
@@ -72,20 +75,26 @@
 		border:2px solid #CFFF04;
 		background-color:#333;
 		color:#CFFF04;
+		padding:0.5em;
 		font-size: clamp(xx-large,5wv,xxx-large)
 	}
 	.round:active,.round:hover{
 		background-color:#EFFF04;
 		color:black;
 	}
+	.border-dashed{
+		border:2px dashed #CFFF04;
+	}
 	.row{
 		display:flex;
 		flex-direction:row;
 		flex-wrap:wrap;
 		gap:1em;
+		justify-content:center;
 	}
 	.col{
 		flex:1 1 auto;
+		max-width: 3.1em;
 		margin:0.3em;
 	}
 	.size-6{
@@ -116,7 +125,11 @@
 		</section>
 		<section id="timer">
 			<h2>Timer: <span id="timerSpan"></span></h2>
-			<div class="row">
+			<div id="customTimers" class="row">
+				<button id="addTimer" class="round border-dashed col" onClick="addTimer()">+</button>
+			</div>
+			<div id="standardTimers" class="row hide">
+				<button class="round col" onClick="startTimer(30)">30 sec</button>
 				<button class="round col" onClick="startTimer(60)">1 min</button>
 				<button class="round col" onClick="startTimer(90)">1:30 min</button>
 				<button class="round col" onClick="startTimer(120)">2 min</button>
@@ -133,6 +146,7 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
 					</svg>
 				</button>
+				<p id="iphoneNote" class="hide"><i>to use audio on iPhone/iPad you must first click on the audio icon and then use the stop button to mute the sound immediately<i></p>
 			</div>
 		</section>
 	</main>
@@ -148,14 +162,21 @@
 	  const audioToggle = document.getElementById("audioToggle");
 	  const speakerWave = document.getElementById("speakerWave");
 	  const speakerNone = document.getElementById("speakerNone");
+	  const customTimersContainer = document.getElementById("customTimers");
+	  const standardTimersContainer = document.getElementById("standardTimers");
+	  const addTimerBtn =  document.getElementById("addTimer");
+	  const iphoneNote = document.getElementById("iphoneNote");
 
-	  
 	  // Browser functionalities
 	  const supportsLocalStorage = typeof Storage !== "undefined";
 
 	  // iPhone shit
 	  function isIOS() {
 		return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document));
+	  }
+
+	  if(isIOS()){
+		  iphoneNote.classList.remove("hide");
 	  }
 	  
 	  // Sets
@@ -178,41 +199,161 @@
 	  setsSpan.textContent = sets;
 
 	  // Timer
-	  let alarmMs = 0;
+	  let alarmMs = null;
 	  let timerId = -1;
+	  let wakeLock = null;
 
-	  function formatSeconds(seconds) {
-		  const m = Math.floor(seconds / 60);
-		  const s = seconds % 60;
-		  return `${m}:${s.toString().padStart(2, '0')}`;
+	  function formatSeconds(seconds, suffix) {
+		  if(seconds>=60){
+			const m = Math.floor(seconds / 60);
+			const s = seconds % 60;
+			return `${m}:${s.toString().padStart(2, '0')}`+ (suffix == true ? " min": "");
+		  }
+		  return seconds + (suffix == true ? " sec" : "");
 	  }
 
 	  function startTimer(seconds) {
-		  alarmMs = seconds * 1000;
 		  if(timerId >= 0){
 		  	clearInterval(timerId); // prevent multiple timers
 		  }
+		  alarmMs = new Date();
+		  alarmMs.setTime(alarmMs.getTime() + seconds*1000);
 		  timerId = setInterval(() => {
-			  alarmMs = alarmMs - 1000;
-			  timerSpan.textContent = formatSeconds(alarmMs/1000);
-			  if (alarmMs <= 0) {
+			  requestWakeLock();
+			  let tempDate = new Date();
+			  let diffTime = (alarmMs.getTime() - tempDate.getTime())/1000;
+			  timerSpan.textContent = formatSeconds(parseInt(diffTime));
+			  if (diffTime <= 0) {
+				  timerSpan.textContent = formatSeconds(0);
 				  clearInterval(timerId);
 				  alarm.play();
+				  releaseWakeLock();
 			  }
-		  }, 1000);
+		  }, 500);
 
 		  timerSpan.textContent = formatSeconds(seconds);
 	  }
 	  
 	  function clearTimer() {
 		  clearInterval(timerId);
-		  alarmMs = 0;
+		  alarmMs = null;
 		  timerSpan.textContent = "0:00";
 		  alarm.pause();
 		  alarm.currentTime = 0;
+		  releaseWakeLock();
+	  }
+
+	  function addTimer() {
+		  let timer = prompt("Timer in seconds");
+		  if(timer != null && parseInt(timer) > 0){
+			saveCustomTimer(parseInt(timer));
+			displayCustomTimer(timer);
+		  }
+	  }
+
+	  function requestWakeLock(){
+		  if ("wakeLock" in navigator) {
+		  	try{
+				if(wakeLock == null){
+					wakeLock = navigator.wakeLock.request();
+				}
+			} catch (err){
+				console.error(err);
+			}
+		  }
+	  }
+
+	  function releaseWakeLock(){
+		if(wakeLock != null){
+			try{
+				wakeLock.then(wls => wls.release());
+				wakeLock = null;
+			}catch (err){
+				console.error(err);
+			}
+		}
 	  }
 
 	  timerSpan.textContent = "0:00";
+
+	  // Custom Timers
+	  const storedTimers = supportsLocalStorage ? localStorage.getItem("timers") : [];
+	  let customTimers = storedTimers == null ? [] : JSON.parse(storedTimers);
+	 
+	  if(!supportsLocalStorage){
+	  	standardTimers.classList.remove("hide");
+	  }
+	  else if(supportsLocalStorage && (customTimers.length == 0)){
+		  saveCustomTimer(30);
+		  saveCustomTimer(60);
+		  saveCustomTimer(120);
+		  saveCustomTimer(180);
+		  customTimers = [30, 60, 120, 180];
+	  }else{
+		  customTimers.sort((a,b)=>a-b);
+	  }
+
+	  function saveCustomTimer(timer){
+		if(supportsLocalStorage){
+			let list = localStorage.getItem("timers");
+			if(list != null){
+				list = JSON.parse(list);
+				list.push(timer);
+				list.sort((a,b)=>a-b);
+			}else{
+				list = [timer];
+			}
+			localStorage.setItem("timers", JSON.stringify(list));
+		}
+	  }
+
+	  function removeCustomTimer(timer){
+		if(supportsLocalStorage){
+			let list = localStorage.getItem("timers");
+			if(list != null){
+				list = JSON.parse(list);
+				const index = list.indexOf(timer);
+				if(index > -1){
+					list.splice(index, 1);
+					localStorage.setItem("timers", JSON.stringify(list));
+				}
+			}
+		}
+	  }
+
+	  function displayCustomTimer(timer){
+	  	let button = document.createElement("button");
+	  	let timerLabel = formatSeconds(timer, true);
+	  	button.innerHTML = timerLabel;
+	  	button.classList.add("round");
+	  	button.classList.add("col");
+	  	button.addEventListener("click", ()=>{
+	  		startTimer(timer);
+	  	});
+	  	onLongPress(button, ()=>{
+	  		let confirmation = confirm("Delete?")
+	  		if(confirmation){
+	  			removeCustomTimer(timer);
+	  			customTimersContainer.removeChild(button);
+	  		}
+	  		return false;
+	  	})
+	  	button.addEventListener("contextmenu", ()=>{
+	  		let confirmation = confirm("Delete?")
+	  		if(confirmation){
+	  			removeCustomTimer(timer);
+	  			customTimersContainer.removeChild(button);
+	  		}
+	  		return false;
+	  	});
+	  	customTimersContainer.insertBefore(button, addTimerBtn);
+	  }
+
+	  
+
+	  customTimers.forEach((item, index) => {
+		  displayCustomTimer(item);
+	  });
 
 	  // Audio
 	  const storedAudio = supportsLocalStorage ? localStorage.getItem("audio") : true;
@@ -238,12 +379,31 @@
 		}
 		if(audioOn && isIOS()){
 			alarm.play();
-			setInterval(()=>{alarm.pause(); alarm.currentTime=0; alarm.load()}, 951);
 		}
 		updateAudioToggleBtn();
 	  }
 
 	  updateAudioToggleBtn();
+
+	  // mobile support
+	  function onLongPress(element, callback) {
+		let timer;
+
+		element.addEventListener('touchstart', () => {
+			timer = setTimeout(() => {
+				timer = null;
+				callback();
+				return false;
+			}, 500);
+		});
+
+		function cancel() {
+			clearTimeout(timer);
+		}
+
+		element.addEventListener('touchend', cancel);
+		element.addEventListener('touchmove', cancel);
+	}
 
 	  // testing
 	  function test(){
