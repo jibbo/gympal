@@ -27,7 +27,7 @@
 		height: 100%;
 	}
 	body {
-		background: #333;
+		background: black;
 		color:white;
 		display:flex;
 		flex-direction: column;
@@ -44,8 +44,9 @@
 	}
 	section{
 		margin:1em;
-		float:left;
+		flex-grow:1;
 		min-width:300px;
+		display:block;
 	}
 	button {
 		background-color:#CFFF04;
@@ -73,7 +74,7 @@
 		border-radius:50%;
 		text-align:center;
 		border:2px solid #CFFF04;
-		background-color:#333;
+		background-color:black;
 		color:#CFFF04;
 		padding:0.5em;
 		font-size: clamp(xx-large,5wv,xxx-large)
@@ -124,6 +125,7 @@
 				Your browser does not support the audio element.
 			</audio>
 		</span>
+		<div class="row">
 		<section id="output" style="width:30%">
 			<h4>SETS</h4>
 			<div class="center">
@@ -134,7 +136,7 @@
 				<button onClick="incSets()">+1</button>
 			</div>
 		</section>
-		<section id="timer" style="width:50%">
+		<section id="timer" style="width:50%;">
 			<h4>Active Timer</h4>
 			<div class="center">
 				<p><span id="timerSpan" class="headline"></span></p>
@@ -142,30 +144,30 @@
 		</section>
 		<section id="pinnedTimers" style="width:20%">
 			<h4>Pinned Timers</h4>
-			<div id="customTimers" class="row">
+			<div id="customTimers" class="center">
 				<button id="addTimer" class="round border-dashed col" onClick="addTimer()">+</button>
 			</div>
-			<div id="standardTimers" class="row hide">
+			<div id="standardTimers" class="hide">
 				<button class="round col" onClick="startTimer(30)">30 sec</button>
 				<button class="round col" onClick="startTimer(60)">1 min</button>
 				<button class="round col" onClick="startTimer(90)">1:30 min</button>
 				<button class="round col" onClick="startTimer(120)">2 min</button>
 				<button class="round col" onClick="startTimer(180)">3 min</button>
 			</div>
-			<div style="margin-top:2em">
-<!-- 				<button onClick="test()">SUONA</button> -->
+			<div class="controls">
 				<button onClick="clearTimer()">STOP</button>
 				<button id="audioToggle" onClick="toggleAudio()">
-					<svg id="speakerWave" class="size-6 hide" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+					<svg id="speakerWave" class="hide" style="max-width:1em"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
 					</svg>
-					<svg id="speakerNone" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					<svg id="speakerNone" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="" style="max-width:1em">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
 					</svg>
 				</button>
-				<p id="iphoneNote" class="hide"><i>to use audio on iPhone/iPad you must first click on the audio icon and then use the stop button to mute the sound immediately<i></p>
+				<p id="iphoneNote" class="hide center" style="width:100%"><i>to use audio on iPhone/iPad you must first click on the audio icon and then use the stop button to mute the sound immediately<i></p>
 			</div>
 		</section>
+		</div>
 	</main>
 	<footer>
 		<p>Created with &lt3 by Jibbo</p>
