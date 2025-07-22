@@ -16,6 +16,11 @@
 	*{
 	  touch-action: manipulation;
 	}
+	:root {
+	  --primaryColor: #8800E7;
+	  --accentColor: #9d4fff;
+	  --buttonTextColor: white;
+	}
 	::-webkit-scrollbar {
 	  display: none;
 	}
@@ -46,21 +51,21 @@
 		display:block;
 	}
 	button {
-		background-color:#CFFF04;
-		font-size:xx-large;
+		background-color: var(--primaryColor);
+		font-size:x-large;
 		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
-		padding:0.75em;
+		padding:0.25em;
 		text-align:center;
 		border-radius:0.5em;
 		border:none;
-		color:black;
+		color: var(--buttonTextColor);
 		cursor:pointer;
 		appearance: none;
 		-webkit-appearance:none;
 	}
 	button:hover, button:active{
-		background-color:#EFFF04;
-		color:black;
+		background-color:var(--accentColor);
+		color: var(--buttonTextColor);
 	}
 	.center{
 		text-align:center;
@@ -70,18 +75,18 @@
 		height:3.2em;
 		border-radius:50%;
 		text-align:center;
-		border:2px solid #CFFF04;
+		border:2px solid var(--primaryColor);
 		background-color:black;
 		color:white;
 		padding:0.5em;
 		font-size: clamp(xx-large,5wv,xxx-large)
 	}
 	.round:active,.round:hover{
-		background-color:#EFFF04;
+		background-color: var(--accentColor);
 		color:black;
 	}
 	.border-dashed{
-		border:2px dashed #CFFF04;
+		border: 2px dashed var(--primaryColor);
 	}
 	.row{
 		display:flex;
@@ -156,7 +161,7 @@
 				<p id="iphoneNote" class="hide center"><i>To use audio on iPhone/iPad you must first click on the audio icon and then use the stop button to mute the sound immediately</i></p>
 			</div>
 		</section>
-		<section id="pinnedTimers" style="width:20%">
+		<section id="pinnedTimers" style="width:20%;margin-bottom:1em">
 			<h4>Pinned Timers</h4>
 			<div id="customTimers" class="center row">
 				<button id="addTimer" class="round border-dashed col" onClick="addTimer()">+</button>
@@ -172,6 +177,11 @@
 		</div>
 	</main>
 	<footer>
+		<div class="row">
+			<h4 style="width:100%">Theme</h4>
+			<button class="round col" style="background-color:#cfff04;border:none;" onclick="setGreenTheme()"></button>
+			<button class="round col" style="background-color:#8800e7;border:none;" onclick="setPurpleTheme()"></button>
+		</div>
 		<p>Created with &lt3 by Jibbo</p>
 	</footer>
   <script>
@@ -199,7 +209,33 @@
 	  if(isIOS()){
 		  iphoneNote.classList.remove("hide");
 	  }
+
+	  // Theme
+	  const storedTheme = supportsLocalStorage ? localStorage.getItem("theme"): null;
+	  let theme = storedTheme != null ? storedTheme : "green";
+
+	  function setGreenTheme(){
+	  	document.documentElement.style.setProperty("--primaryColor", "#CFFF04");
+	  	document.documentElement.style.setProperty("--accentColor", "#EFFF04");
+	  	document.documentElement.style.setProperty("--buttonTextColor", "black");
+	  	if(supportsLocalStorage){
+	  		localStorage.setItem("theme","green");
+	  	}
+	  }
 	  
+	  function setPurpleTheme(){
+	  	document.documentElement.style.setProperty("--primaryColor", "#8800E7");
+	  	document.documentElement.style.setProperty("--accentColor", "#9d4fff");
+	  	document.documentElement.style.setProperty("--buttonTextColor", "white");
+	  	if(supportsLocalStorage){
+	  		localStorage.setItem("theme","purple");
+	  	}
+	  }
+
+	  if(theme == "green"){
+	  	setGreenTheme();
+	  }
+
 	  // Sets
 	  const stored = supportsLocalStorage ? localStorage.getItem("sets") : null;
 	  let sets = stored !== null ? parseInt(stored, 10) : 0;
