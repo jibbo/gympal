@@ -1,126 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Gym Pal</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="HandheldFriendly" content="true" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="GymPal">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
-  <link rel="apple-touch-icon-precomposed" href="ios_icon.png" />
-  <link rel="manifest" href="manifest.json">
-  <style>
-	*{
-	  touch-action: manipulation;
-	}
-	:root {
-	  --primaryColor: #8800E7;
-	  --accentColor: #9d4fff;
-	  --buttonTextColor: white;
-	}
-	::-webkit-scrollbar {
-	  display: none;
-	}
-	html{
-		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
-		scrollbar-width: none;
-	}
-	html, body {
-		height: 100%;
-	}
-	body {
-		background: black;
-		color:white;
-		display:flex;
-		flex-direction: column;
-	}
-	h2{
-		font-size:xxx-large;
-	}
-	footer {
-		text-align: center;
-		border-top:1px solid #ccc;
-	}
-	section{
-		margin:0.2em;
-		flex-grow:1;
-		min-width:300px;
-		display:block;
-	}
-	button {
-		background-color: var(--primaryColor);
-		font-size:x-large;
-		font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
-		padding:0.25em;
-		text-align:center;
-		border-radius:0.5em;
-		border:none;
-		color: var(--buttonTextColor);
-		cursor:pointer;
-		appearance: none;
-		-webkit-appearance:none;
-	}
-	button:hover, button:active{
-		background-color:var(--accentColor);
-		color: var(--buttonTextColor);
-	}
-	.center{
-		text-align:center;
-	}
-	.round{
-		width:3.2em;
-		height:3.2em;
-		border-radius:50%;
-		text-align:center;
-		border:2px solid var(--primaryColor);
-		background-color:black;
-		color:white;
-		padding:0.5em;
-		font-size: clamp(xx-large,5wv,xxx-large)
-	}
-	.round:active,.round:hover{
-		background-color: var(--accentColor);
-		color:black;
-	}
-	.border-dashed{
-		border: 2px dashed var(--primaryColor);
-	}
-	.row{
-		display:flex;
-		flex-direction:row;
-		flex-wrap:wrap;
-		gap:0.2em;
-		justify-content:center;
-	}
-	.col{
-		flex:1 1 auto;
-		max-width: 3.1em;
-		margin:0.3em;
-	}
-	.size-6{
-		min-width:0.8em;
-	}
-	.hide{
-		display:none;
-	}
-	.controls>*{
-		width:48%;
-		float:left;
-		margin:2px;
-	}
-	.headline{
-		font-size:96pt;
-	}
-	#iphoneNote{
-		font-family: sans-serif;
-		width:100%;
-		font-size:10pt;
-	}
-  </style>
+	<title>Gym Pal</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="HandheldFriendly" content="true" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="GymPal">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+	<link rel="apple-touch-icon-precomposed" href="ios_icon.png" />
+	<link rel="manifest" href="manifest.json">
+	<style>
+		* {
+			touch-action: manipulation;
+		}
+
+		:root {
+			--primaryColor: #8800E7;
+			--accentColor: #9d4fff;
+			--buttonTextColor: white;
+		}
+
+		::-webkit-scrollbar {
+			display: none;
+		}
+
+		html {
+			font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
+			scrollbar-width: none;
+		}
+
+		html,
+		body {
+			height: 100%;
+		}
+
+		body {
+			background: black;
+			color: white;
+			display: flex;
+			flex-direction: column;
+		}
+
+		h2 {
+			font-size: xxx-large;
+		}
+
+		footer {
+			text-align: center;
+			border-top: 1px solid #ccc;
+		}
+
+		section {
+			margin: 0.2em;
+			flex-grow: 1;
+			min-width: 300px;
+			display: block;
+		}
+
+		button {
+			background-color: var(--primaryColor);
+			font-size: x-large;
+			font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
+			padding: 0.25em;
+			text-align: center;
+			border-radius: 0.5em;
+			border: none;
+			color: var(--buttonTextColor);
+			cursor: pointer;
+			appearance: none;
+			-webkit-appearance: none;
+		}
+
+		button:hover,
+		button:active {
+			background-color: var(--accentColor);
+			color: var(--buttonTextColor);
+		}
+
+		.center {
+			text-align: center;
+		}
+
+		.round {
+			width: 3.2em;
+			height: 3.2em;
+			border-radius: 50%;
+			text-align: center;
+			border: 2px solid var(--primaryColor);
+			background-color: black;
+			color: white;
+			padding: 0.5em;
+			font-size: clamp(xx-large, 5wv, xxx-large)
+		}
+
+		.round:active,
+		.round:hover {
+			background-color: var(--accentColor);
+			color: black;
+		}
+
+		.border-dashed {
+			border: 2px dashed var(--primaryColor);
+		}
+
+		.row {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 0.2em;
+			justify-content: center;
+		}
+
+		.col {
+			flex: 1 1 auto;
+			max-width: 3.1em;
+			margin: 0.3em;
+		}
+
+		.size-6 {
+			min-width: 0.8em;
+		}
+
+		.hide {
+			display: none;
+		}
+
+		.controls>* {
+			width: 48%;
+			float: left;
+			margin: 2px;
+		}
+
+		.headline {
+			font-size: 96pt;
+		}
+
+		#iphoneNote {
+			font-family: sans-serif;
+			width: 100%;
+			font-size: 10pt;
+		}
+	</style>
 </head>
+
 <body>
 	<header>
 		<h1>Gym Pal</h1>
@@ -133,47 +159,71 @@
 			</audio>
 		</span>
 		<div class="row">
-		<section id="output" style="width:30%">
-			<h4>SETS</h4>
-			<div class="center">
-				<span id="setsSpan" class="headline"></span> completed
-			</div>
-			<div class="controls" style="margin-top:1em">
-				<button onClick="resetSets()">RESET</button>
-				<button onClick="incSets()">+1</button>
-			</div>
-		</section>
-		<section id="timer" style="width:50%;">
-			<h4>Active Timer</h4>
-			<div class="center">
-				<p><span id="timerSpan" class="headline"></span></p>
-			</div>
-			<div class="controls">
-				<button onClick="clearTimer()">STOP</button>
-				<button id="audioToggle" onClick="toggleAudio()">
-					<svg id="speakerWave" class="hide" style="max-width:0.8em"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
-					</svg>
-					<svg id="speakerNone" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="" style="max-width:0.8em">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
-					</svg>
-				</button>
-				<p id="iphoneNote" class="hide center"><i>To use audio on iPhone/iPad you must first click on the audio icon and then use the stop button to mute the sound immediately</i></p>
-			</div>
-		</section>
-		<section id="pinnedTimers" style="width:20%;margin-bottom:1em">
-			<h4>Pinned Timers</h4>
-			<div id="customTimers" class="center row">
-				<button id="addTimer" class="round border-dashed col" onClick="addTimer()">+</button>
-			</div>
-			<div id="standardTimers" class="hide">
-				<button class="round col" onClick="startTimer(30)">30 sec</button>
-				<button class="round col" onClick="startTimer(60)">1 min</button>
-				<button class="round col" onClick="startTimer(90)">1:30 min</button>
-				<button class="round col" onClick="startTimer(120)">2 min</button>
-				<button class="round col" onClick="startTimer(180)">3 min</button>
-			</div>
-		</section>
+			<section id="output">
+				<h4>SETS</h4>
+				<div class="center">
+					<span id="setsSpan" class="headline"></span> completed
+				</div>
+				<div class="controls" style="margin-top:1em">
+					<button onClick="resetSets()">RESET</button>
+					<button onClick="incSets()">+1</button>
+				</div>
+			</section>
+			<section id="timer">
+				<h4>Active Timer</h4>
+				<div class="center">
+					<p><span id="timerSpan" class="headline"></span></p>
+				</div>
+				<div class="controls">
+					<button onClick="clearTimer()">STOP</button>
+					<button id="audioToggle" onClick="toggleAudio()">
+						<svg id="speakerWave" class="hide" style="max-width:0.8em" xmlns="http://www.w3.org/2000/svg"
+							fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round"
+								d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+						</svg>
+						<svg id="speakerNone" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+							stroke-width="1.5" stroke="currentColor" class="" style="max-width:0.8em">
+							<path stroke-linecap="round" stroke-linejoin="round"
+								d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+						</svg>
+					</button>
+					<p id="iphoneNote" class="hide center"><i>To use audio on iPhone/iPad you must first click on the
+							audio icon and then use the stop button to mute the sound immediately</i></p>
+				</div>
+			</section>
+			<section id="pinnedTimers">
+				<h4>Pinned Timers</h4>
+				<div id="customTimers" class="center row">
+					<button id="addTimer" class="round border-dashed col" onClick="addTimer()">+</button>
+				</div>
+				<div id="standardTimers" class="hide">
+					<button class="round col" onClick="startTimer(30)">30 sec</button>
+					<button class="round col" onClick="startTimer(60)">1 min</button>
+					<button class="round col" onClick="startTimer(90)">1:30 min</button>
+					<button class="round col" onClick="startTimer(120)">2 min</button>
+					<button class="round col" onClick="startTimer(180)">3 min</button>
+				</div>
+			</section>
+			<section id="weights">
+				<h4>Weights counter (beta)</h4>
+				<canvas id="canvas" width="300" height="300"></canvas>
+				<div class="row">
+					<p class="col"><h2 id="totalWeight"></h2>Kg</p>
+				</div>
+				<div class="row">
+					<button onClick="resetWeight()">RESET</button>
+				</div>
+				<div class="row">
+					<button class="round col" onClick="addWeight(0.25)">0.25kg</button>
+					<button class="round col" onClick="addWeight(0.5)">0.5kg</button>
+					<button class="round col" onClick="addWeight(5)">5kg</button>
+					<button class="round col" onClick="addWeight(10)">10kg</button>
+					<button class="round col" onClick="addWeight(15)">15kg</button>
+					<button class="round col" onClick="addWeight(20)">20kg</button>
+					<button class="round col" onClick="addWeight(25)">25kg</button>
+				</div>
+			</section>
 		</div>
 	</main>
 	<footer>
@@ -181,291 +231,357 @@
 			<h4 style="width:100%">Theme</h4>
 			<button class="round col" style="background-color:#cfff04;border:none;" onclick="setGreenTheme()"></button>
 			<button class="round col" style="background-color:#8800e7;border:none;" onclick="setPurpleTheme()"></button>
+			<button class="round col" style="background-color:#ee7620;border:none;" onclick="setOrangeTheme()"></button>
 		</div>
 		<p>Created with &lt3 by Jibbo</p>
 	</footer>
-  <script>
-	  // HTML elements
-	  const setsSpan = document.getElementById("setsSpan"); 
-	  const alarm = document.getElementById("alarmSound");
-	  const source = alarm.querySelector('source');
-	  const timerSpan = document.getElementById("timerSpan");
-	  const audioToggle = document.getElementById("audioToggle");
-	  const speakerWave = document.getElementById("speakerWave");
-	  const speakerNone = document.getElementById("speakerNone");
-	  const customTimersContainer = document.getElementById("customTimers");
-	  const standardTimersContainer = document.getElementById("standardTimers");
-	  const addTimerBtn =  document.getElementById("addTimer");
-	  const iphoneNote = document.getElementById("iphoneNote");
+	<script>
+		// HTML elements
+		const setsSpan = document.getElementById("setsSpan");
+		const alarm = document.getElementById("alarmSound");
+		const source = alarm.querySelector('source');
+		const timerSpan = document.getElementById("timerSpan");
+		const audioToggle = document.getElementById("audioToggle");
+		const speakerWave = document.getElementById("speakerWave");
+		const speakerNone = document.getElementById("speakerNone");
+		const customTimersContainer = document.getElementById("customTimers");
+		const standardTimersContainer = document.getElementById("standardTimers");
+		const addTimerBtn = document.getElementById("addTimer");
+		const iphoneNote = document.getElementById("iphoneNote");
+		const canvas = document.getElementById("canvas");
+		const totalWeight = document.getElementById("totalWeight");
 
-	  // Browser functionalities
-	  const supportsLocalStorage = typeof Storage !== "undefined";
+		// Browser functionalities
+		const supportsLocalStorage = typeof Storage !== "undefined";
 
-	  // iPhone shit
-	  function isIOS() {
-		return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document));
-	  }
+		// iPhone shit
+		function isIOS() {
+			return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document));
+		}
 
-	  if(isIOS()){
-		  iphoneNote.classList.remove("hide");
-	  }
+		if (isIOS()) {
+			iphoneNote.classList.remove("hide");
+		}
 
-	  // Theme
-	  const storedTheme = supportsLocalStorage ? localStorage.getItem("theme"): null;
-	  let theme = storedTheme != null ? storedTheme : "green";
+		// Theme
+		const storedTheme = supportsLocalStorage ? localStorage.getItem("theme") : null;
+		let theme = storedTheme != null ? storedTheme : "green";
 
-	  function setGreenTheme(){
-	  	document.documentElement.style.setProperty("--primaryColor", "#CFFF04");
-	  	document.documentElement.style.setProperty("--accentColor", "#EFFF04");
-	  	document.documentElement.style.setProperty("--buttonTextColor", "black");
-	  	if(supportsLocalStorage){
-	  		localStorage.setItem("theme","green");
-	  	}
-	  }
-	  
-	  function setPurpleTheme(){
-	  	document.documentElement.style.setProperty("--primaryColor", "#8800E7");
-	  	document.documentElement.style.setProperty("--accentColor", "#9d4fff");
-	  	document.documentElement.style.setProperty("--buttonTextColor", "white");
-	  	if(supportsLocalStorage){
-	  		localStorage.setItem("theme","purple");
-	  	}
-	  }
-
-	  if(theme == "green"){
-	  	setGreenTheme();
-	  }
-
-	  // Sets
-	  const stored = supportsLocalStorage ? localStorage.getItem("sets") : null;
-	  let sets = stored !== null ? parseInt(stored, 10) : 0;
-	  function incSets() {
-		  sets++;
-		  if (supportsLocalStorage) {
-			  localStorage.setItem("sets", sets);
-		  }
-		  setsSpan.textContent = sets;
-	  }
-	  function resetSets() {
-		  sets=0;
-		  if (supportsLocalStorage) {
-			  localStorage.setItem("sets", sets);
-		  }
-		  setsSpan.textContent = sets;
-	  }
-	  setsSpan.textContent = sets;
-
-	  // Timer
-	  let alarmMs = null;
-	  let timerId = -1;
-	  let wakeLock = null;
-
-	  function formatSeconds(seconds, suffix) {
-		  if(seconds>=60){
-			const m = Math.floor(seconds / 60);
-			const s = seconds % 60;
-			return `${m}:${s.toString().padStart(2, '0')}`+ (suffix == true ? " min": "");
-		  }
-		  return seconds + (suffix == true ? " sec" : "");
-	  }
-
-	  function startTimer(seconds) {
-		  if(timerId >= 0){
-		  	clearInterval(timerId); // prevent multiple timers
-		  }
-		  alarmMs = new Date();
-		  alarmMs.setTime(alarmMs.getTime() + seconds*1000);
-		  timerId = setInterval(() => {
-			  requestWakeLock();
-			  let tempDate = new Date();
-			  let diffTime = (alarmMs.getTime() - tempDate.getTime())/1000;
-			  timerSpan.textContent = formatSeconds(parseInt(diffTime));
-			  if (diffTime <= 0) {
-				  timerSpan.textContent = formatSeconds(0);
-				  clearInterval(timerId);
-				  alarm.play();
-				  releaseWakeLock();
-			  }
-		  }, 500);
-
-		  timerSpan.textContent = formatSeconds(seconds);
-	  }
-	  
-	  function clearTimer() {
-		  clearInterval(timerId);
-		  alarmMs = null;
-		  timerSpan.textContent = "0:00";
-		  alarm.pause();
-		  alarm.currentTime = 0;
-		  releaseWakeLock();
-	  }
-
-	  function addTimer() {
-		  let timer = prompt("Timer in seconds");
-		  if(timer != null && parseInt(timer) > 0){
-			saveCustomTimer(parseInt(timer));
-			displayCustomTimer(timer);
-		  }
-	  }
-
-	  function requestWakeLock(){
-		  if ("wakeLock" in navigator) {
-		  	try{
-				if(wakeLock == null){
-					wakeLock = navigator.wakeLock.request();
-				}
-			} catch (err){
-				console.error(err);
-			}
-		  }
-	  }
-
-	  function releaseWakeLock(){
-		if(wakeLock != null){
-			try{
-				wakeLock.then(wls => wls.release());
-				wakeLock = null;
-			}catch (err){
-				console.error(err);
+		function setGreenTheme() {
+			document.documentElement.style.setProperty("--primaryColor", "#CFFF04");
+			document.documentElement.style.setProperty("--accentColor", "#EFFF04");
+			document.documentElement.style.setProperty("--buttonTextColor", "black");
+			if (supportsLocalStorage) {
+				localStorage.setItem("theme", "green");
 			}
 		}
-	  }
 
-	  timerSpan.textContent = "0:00";
-
-	  // Custom Timers
-	  const storedTimers = supportsLocalStorage ? localStorage.getItem("timers") : [];
-	  let customTimers = storedTimers == null ? [] : JSON.parse(storedTimers);
-	 
-	  if(!supportsLocalStorage){
-	  	standardTimers.classList.remove("hide");
-	  }
-	  else if(supportsLocalStorage && (customTimers.length == 0)){
-		  saveCustomTimer(30);
-		  saveCustomTimer(60);
-		  saveCustomTimer(120);
-		  saveCustomTimer(180);
-		  customTimers = [30, 60, 120, 180];
-	  }else{
-		  customTimers.sort((a,b)=>a-b);
-	  }
-
-	  function saveCustomTimer(timer){
-		if(supportsLocalStorage){
-			let list = localStorage.getItem("timers");
-			if(list != null){
-				list = JSON.parse(list);
-				list.push(timer);
-				list.sort((a,b)=>a-b);
-			}else{
-				list = [timer];
-			}
-			localStorage.setItem("timers", JSON.stringify(list));
-		}
-	  }
-
-	  function removeCustomTimer(timer){
-		if(supportsLocalStorage){
-			let list = localStorage.getItem("timers");
-			if(list != null){
-				list = JSON.parse(list);
-				const index = list.indexOf(timer);
-				if(index > -1){
-					list.splice(index, 1);
-					localStorage.setItem("timers", JSON.stringify(list));
-				}
+		function setOrangeTheme() {
+			document.documentElement.style.setProperty("--primaryColor", "#ee7620");
+			document.documentElement.style.setProperty("--accentColor", "#ef7620");
+			document.documentElement.style.setProperty("--buttonTextColor", "white");
+			if (supportsLocalStorage) {
+				localStorage.setItem("theme", "orange");
 			}
 		}
-	  }
 
-	  function displayCustomTimer(timer){
-	  	let button = document.createElement("button");
-	  	let timerLabel = formatSeconds(timer, true);
-	  	button.innerHTML = timerLabel;
-	  	button.classList.add("round");
-	  	button.classList.add("col");
-	  	button.addEventListener("click", ()=>{
-	  		startTimer(timer);
-	  	});
-	  	onLongPress(button, ()=>{
-	  		let confirmation = confirm("Delete?")
-	  		if(confirmation){
-	  			removeCustomTimer(timer);
-	  			customTimersContainer.removeChild(button);
-	  		}
-	  		return false;
-	  	})
-	  	button.addEventListener("contextmenu", ()=>{
-	  		let confirmation = confirm("Delete?")
-	  		if(confirmation){
-	  			removeCustomTimer(timer);
-	  			customTimersContainer.removeChild(button);
-	  		}
-	  		return false;
-	  	});
-	  	customTimersContainer.insertBefore(button, addTimerBtn);
-	  }
+		function setPurpleTheme() {
+			document.documentElement.style.setProperty("--primaryColor", "#8800E7");
+			document.documentElement.style.setProperty("--accentColor", "#9d4fff");
+			document.documentElement.style.setProperty("--buttonTextColor", "white");
+			if (supportsLocalStorage) {
+				localStorage.setItem("theme", "purple");
+			}
+		}
 
-	  
-
-	  customTimers.forEach((item, index) => {
-		  displayCustomTimer(item);
-	  });
-
-	  // Audio
-	  const storedAudio = supportsLocalStorage ? localStorage.getItem("audio") : true;
-	  let audioOn = storedAudio == null ? true : storedAudio;
-	  if(isIOS()){
-		audioOn = false;
-	  }
-
-	  function updateAudioToggleBtn(){
-		if(audioOn==true){
-			speakerNone.classList.add("hide");
-			speakerWave.classList.remove("hide");
+		if (theme == "green") {
+			setGreenTheme();
+		} else if (theme == "orange") {
+			setOrangeTheme();
 		} else {
-			speakerNone.classList.remove("hide");
-			speakerWave.classList.add("hide")
+			setPurpleTheme();
 		}
-	  }
 
-	  function toggleAudio(){
-		audioOn = !audioOn;
-		if(supportsLocalStorage){
-			localStorage.setItem("audio", audioOn);
+		// Sets
+		const stored = supportsLocalStorage ? localStorage.getItem("sets") : null;
+		let sets = stored !== null ? parseInt(stored, 10) : 0;
+		function incSets() {
+			sets++;
+			if (supportsLocalStorage) {
+				localStorage.setItem("sets", sets);
+			}
+			setsSpan.textContent = sets;
 		}
-		if(audioOn && isIOS()){
-			alarm.play();
+		function resetSets() {
+			sets = 0;
+			if (supportsLocalStorage) {
+				localStorage.setItem("sets", sets);
+			}
+			setsSpan.textContent = sets;
 		}
-		updateAudioToggleBtn();
-	  }
+		setsSpan.textContent = sets;
 
-	  updateAudioToggleBtn();
+		// Timer
+		let alarmMs = null;
+		let timerId = -1;
+		let wakeLock = null;
 
-	  // mobile support
-	  function onLongPress(element, callback) {
-		let timer;
+		function formatSeconds(seconds, suffix) {
+			if (seconds >= 60) {
+				const m = Math.floor(seconds / 60);
+				const s = seconds % 60;
+				return `${m}:${s.toString().padStart(2, '0')}` + (suffix == true ? " min" : "");
+			}
+			return seconds + (suffix == true ? " sec" : "");
+		}
 
-		element.addEventListener('touchstart', () => {
-			timer = setTimeout(() => {
-				timer = null;
-				callback();
-				return false;
+		function startTimer(seconds) {
+			if (timerId >= 0) {
+				clearInterval(timerId); // prevent multiple timers
+			}
+			alarmMs = new Date();
+			alarmMs.setTime(alarmMs.getTime() + seconds * 1000);
+			timerId = setInterval(() => {
+				requestWakeLock();
+				let tempDate = new Date();
+				let diffTime = (alarmMs.getTime() - tempDate.getTime()) / 1000;
+				timerSpan.textContent = formatSeconds(parseInt(diffTime));
+				if (diffTime <= 0) {
+					timerSpan.textContent = formatSeconds(0);
+					clearInterval(timerId);
+					alarm.play();
+					releaseWakeLock();
+				}
 			}, 500);
+
+			timerSpan.textContent = formatSeconds(seconds);
+		}
+
+		function clearTimer() {
+			clearInterval(timerId);
+			alarmMs = null;
+			timerSpan.textContent = "0:00";
+			alarm.pause();
+			alarm.currentTime = 0;
+			releaseWakeLock();
+		}
+
+		function addTimer() {
+			let timer = prompt("Timer in seconds");
+			if (timer != null && parseInt(timer) > 0) {
+				saveCustomTimer(parseInt(timer));
+				displayCustomTimer(timer);
+			}
+		}
+
+		function requestWakeLock() {
+			if ("wakeLock" in navigator) {
+				try {
+					if (wakeLock == null) {
+						wakeLock = navigator.wakeLock.request();
+					}
+				} catch (err) {
+					console.error(err);
+				}
+			}
+		}
+
+		function releaseWakeLock() {
+			if (wakeLock != null) {
+				try {
+					wakeLock.then(wls => wls.release());
+					wakeLock = null;
+				} catch (err) {
+					console.error(err);
+				}
+			}
+		}
+
+		timerSpan.textContent = "0:00";
+
+		// Custom Timers
+		const storedTimers = supportsLocalStorage ? localStorage.getItem("timers") : [];
+		let customTimers = storedTimers == null ? [] : JSON.parse(storedTimers);
+
+		if (!supportsLocalStorage) {
+			standardTimers.classList.remove("hide");
+		}
+		else if (supportsLocalStorage && (customTimers.length == 0)) {
+			saveCustomTimer(30);
+			saveCustomTimer(60);
+			saveCustomTimer(120);
+			saveCustomTimer(180);
+			customTimers = [30, 60, 120, 180];
+		} else {
+			customTimers.sort((a, b) => a - b);
+		}
+
+		function saveCustomTimer(timer) {
+			if (supportsLocalStorage) {
+				let list = localStorage.getItem("timers");
+				if (list != null) {
+					list = JSON.parse(list);
+					list.push(timer);
+					list.sort((a, b) => a - b);
+				} else {
+					list = [timer];
+				}
+				localStorage.setItem("timers", JSON.stringify(list));
+			}
+		}
+
+		function removeCustomTimer(timer) {
+			if (supportsLocalStorage) {
+				let list = localStorage.getItem("timers");
+				if (list != null) {
+					list = JSON.parse(list);
+					const index = list.indexOf(timer);
+					if (index > -1) {
+						list.splice(index, 1);
+						localStorage.setItem("timers", JSON.stringify(list));
+					}
+				}
+			}
+		}
+
+		function displayCustomTimer(timer) {
+			let button = document.createElement("button");
+			let timerLabel = formatSeconds(timer, true);
+			button.innerHTML = timerLabel;
+			button.classList.add("round");
+			button.classList.add("col");
+			button.addEventListener("click", () => {
+				startTimer(timer);
+			});
+			onLongPress(button, () => {
+				let confirmation = confirm("Delete?")
+				if (confirmation) {
+					removeCustomTimer(timer);
+					customTimersContainer.removeChild(button);
+				}
+				return false;
+			})
+			button.addEventListener("contextmenu", () => {
+				let confirmation = confirm("Delete?")
+				if (confirmation) {
+					removeCustomTimer(timer);
+					customTimersContainer.removeChild(button);
+				}
+				return false;
+			});
+			customTimersContainer.insertBefore(button, addTimerBtn);
+		}
+
+
+
+		customTimers.forEach((item, index) => {
+			displayCustomTimer(item);
 		});
 
-		function cancel() {
-			clearTimeout(timer);
+		// Audio
+		const storedAudio = supportsLocalStorage ? localStorage.getItem("audio") : true;
+		let audioOn = storedAudio == null ? true : storedAudio;
+		if (isIOS()) {
+			audioOn = false;
 		}
 
-		element.addEventListener('touchend', cancel);
-		element.addEventListener('touchmove', cancel);
-	}
+		function updateAudioToggleBtn() {
+			if (audioOn == true) {
+				speakerNone.classList.add("hide");
+				speakerWave.classList.remove("hide");
+			} else {
+				speakerNone.classList.remove("hide");
+				speakerWave.classList.add("hide")
+			}
+		}
 
-	  // testing
-	  function test(){
-		alarm.play();
-	  }
-  </script>
+		function toggleAudio() {
+			audioOn = !audioOn;
+			if (supportsLocalStorage) {
+				localStorage.setItem("audio", audioOn);
+			}
+			if (audioOn && isIOS()) {
+				alarm.play();
+			}
+			updateAudioToggleBtn();
+		}
+
+		updateAudioToggleBtn();
+
+		// mobile support
+		function onLongPress(element, callback) {
+			let timer;
+
+			element.addEventListener('touchstart', () => {
+				timer = setTimeout(() => {
+					timer = null;
+					callback();
+					return false;
+				}, 500);
+			});
+
+			function cancel() {
+				clearTimeout(timer);
+			}
+
+			element.addEventListener('touchend', cancel);
+			element.addEventListener('touchmove', cancel);
+		}
+
+		// testing
+		function test() {
+			alarm.play();
+		}
+
+		// weights counter
+		let weights = [];
+
+		function addWeight(weight) {
+			weights.push(weight);
+			draw();
+			updateTotalWeight();
+		}
+
+		function updateTotalWeight() {
+			let total = weights.reduce((acc, val) => acc + val, 0)*2+20;
+			totalWeight.textContent = total.toFixed(2);
+		}
+
+		function resetWeight() {
+			weights = [];
+			draw();
+			updateTotalWeight();
+		}
+
+		function draw() {
+			if (canvas.getContext) {
+				const ctx = canvas.getContext("2d");
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				ctx.fillStyle = "rgb(200 200 200)";
+				ctx.fillRect(0, 150, 50, 28);
+				ctx.fillRect(51, 140, 10, 50);
+
+				let outX = 62;
+				weights.forEach((item, index) => {
+					let x = 62 + (index * 22);
+					ctx.fillStyle = "white";
+					ctx.fillRect(x, 125, 20, 80);
+					ctx.fillStyle = "black";
+					ctx.font = "16px Arial";
+					ctx.textAlign = "center";
+					ctx.fillText(item.toString(), x + 10, 170);
+					outX = x+22;
+				});
+
+				ctx.fillStyle = "rgb(200 200 200)";
+				ctx.fillRect(outX, 146, 200, 35);
+			}
+		}
+		window.addEventListener("load", draw);
+
+		updateTotalWeight()
+	</script>
 </body>
+
 </html>
