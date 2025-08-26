@@ -207,11 +207,11 @@
 			</section>
 			<section id="weights">
 				<h4>Weights counter (beta)</h4>
-				<canvas id="canvas" width="300" height="300"></canvas>
+				<canvas id="canvas" width="300" height="150"></canvas>
 				<div class="row">
-					<p class="col"><h2 id="totalWeight"></h2>Kg</p>
+					<p><span id="totalWeight" class="headline"></span>Kg</p>
 				</div>
-				<div class="row">
+				<div class="row controls">
 					<button onClick="resetWeight()">RESET</button>
 				</div>
 				<div class="row">
@@ -538,6 +538,7 @@
 
 		function addWeight(weight) {
 			weights.push(weight);
+			weights.sort((a, b) => b - a);
 			draw();
 			updateTotalWeight();
 		}
@@ -559,23 +560,27 @@
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 				ctx.fillStyle = "rgb(200 200 200)";
-				ctx.fillRect(0, 150, 50, 28);
-				ctx.fillRect(51, 140, 10, 50);
+				ctx.fillRect(0, 75, 50, 28);
+				ctx.fillRect(51, 65, 10, 50);
 
 				let outX = 62;
 				weights.forEach((item, index) => {
 					let x = 62 + (index * 22);
 					ctx.fillStyle = "white";
-					ctx.fillRect(x, 125, 20, 80);
+					ctx.fillRect(x, 50.5, 20, 80);
 					ctx.fillStyle = "black";
 					ctx.font = "16px Arial";
 					ctx.textAlign = "center";
-					ctx.fillText(item.toString(), x + 10, 170);
+					ctx.fillText(item.toString(), x + 10, 98);
 					outX = x+22;
 				});
 
 				ctx.fillStyle = "rgb(200 200 200)";
-				ctx.fillRect(outX, 146, 200, 35);
+				let remainingWidth = 300 - weights.length * 22 - 62;
+				if (remainingWidth < 0) {
+					remainingWidth = 0;
+				}
+				ctx.fillRect(outX, 72.5, remainingWidth, 35);
 			}
 		}
 		window.addEventListener("load", draw);
