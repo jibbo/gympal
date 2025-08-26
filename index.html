@@ -22,6 +22,7 @@
 			--primaryColor: #8800E7;
 			--accentColor: #9d4fff;
 			--buttonTextColor: white;
+			--bg-color: #0e0e0e;
 		}
 
 		::-webkit-scrollbar {
@@ -39,7 +40,7 @@
 		}
 
 		body {
-			background: black;
+			background: var(--bg-color);
 			color: white;
 			display: flex;
 			flex-direction: column;
@@ -91,7 +92,7 @@
 			border-radius: 50%;
 			text-align: center;
 			border: 2px solid var(--primaryColor);
-			background-color: black;
+			background-color: var(--bg-color);
 			color: white;
 			padding: 0.5em;
 			font-size: clamp(xx-large, 5wv, xxx-large)
@@ -100,7 +101,7 @@
 		.round:active,
 		.round:hover {
 			background-color: var(--accentColor);
-			color: black;
+			color: var(--bg-color);
 		}
 
 		.border-dashed {
@@ -192,6 +193,8 @@
 							audio icon and then use the stop button to mute the sound immediately</i></p>
 				</div>
 			</section>
+			</div>
+			<div class="row">
 			<section id="pinnedTimers">
 				<h4>Pinned Timers</h4>
 				<div id="customTimers" class="center row">
@@ -211,7 +214,7 @@
 				<div class="row">
 					<p><span id="totalWeight" class="headline"></span>Kg</p>
 				</div>
-				<div class="row controls">
+				<div class="row controls" style="margin-bottom: 1em;">
 					<button onClick="resetWeight()">RESET</button>
 				</div>
 				<div class="row">
