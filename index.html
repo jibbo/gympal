@@ -23,6 +23,12 @@
 			--accentColor: #9d4fff;
 			--buttonTextColor: white;
 			--bg-color: #0e0e0e;
+			--red: #e74c3c;
+			--blue: #3498db;
+			--yellow: #f39c12;
+			--green: #2ecc71;
+			--white: #ffffff;
+			--gray: #333;
 		}
 
 		::-webkit-scrollbar {
@@ -140,6 +146,37 @@
 			font-size: 96pt;
 		}
 
+		.red {
+			background-color: var(--red);
+			border: none;
+		}
+
+		.blue {
+			background-color: var(--blue);
+			border: none;
+		}
+
+		.yellow {
+			background-color: var(--yellow);
+			border: none;
+		}
+
+		.green {
+			background-color: var(--green);
+			border: none;
+		}
+
+		.white {
+			background-color: var(--white);
+			color: black;
+			border: none;
+		}
+
+		.gray {
+			background-color: var(--gray);
+			border: none;
+		}
+
 		#iphoneNote {
 			font-family: sans-serif;
 			width: 100%;
@@ -218,14 +255,21 @@
 					<button onClick="resetWeight()">RESET</button>
 				</div>
 				<div class="row">
-					<button class="round col" onClick="addWeight(0.25)">0.25kg</button>
-					<button class="round col" onClick="addWeight(0.5)">0.5kg</button>
-					<button class="round col" onClick="addWeight(5)">5kg</button>
-					<button class="round col" onClick="addWeight(10)">10kg</button>
-					<button class="round col" onClick="addWeight(15)">15kg</button>
-					<button class="round col" onClick="addWeight(20)">20kg</button>
-					<button class="round col" onClick="addWeight(25)">25kg</button>
+					<button class="round col gray" onClick="addWeight(0.25)">0.25kg</button>
+					<button class="round col gray" onClick="addWeight(0.5)">0.5kg</button>
+					<button class="round col white" onClick="addWeight(5)">5kg</button>
+					<button class="round col green" onClick="addWeight(10)">10kg</button>
+					<button class="round col yellow" onClick="addWeight(15)">15kg</button>
+					<button class="round col blue" onClick="addWeight(20)">20kg</button>
+					<button class="round col red" onClick="addWeight(25)">25kg</button>
 				</div>
+			</section>
+			<section id="BarLoader">
+				<h4>Load weights into the bar</h4>
+				<div class="row controls" style="margin-bottom: 1em;">
+					<input id="weight" type="number" step="0.25" min="20" max="500" value="20" />
+					<input id="percentWeight" type="number" step="0.25" min="0" max="100" value="100" />
+					<button onClick="loadWeight()">Load into bar</button>
 			</section>
 		</div>
 	</main>
@@ -253,6 +297,8 @@
 		const iphoneNote = document.getElementById("iphoneNote");
 		const canvas = document.getElementById("canvas");
 		const totalWeight = document.getElementById("totalWeight");
+		const weight = document.getElementById("weight");
+		const percentWeight = document.getElementById("percentWeight");
 
 		// Browser functionalities
 		const supportsLocalStorage = typeof Storage !== "undefined";
@@ -557,6 +603,38 @@
 			updateTotalWeight();
 		}
 
+		function loadWeight() {
+			let w = parseFloat(weight.value);
+			let p = parseFloat(percentWeight.value);
+			if (isNaN(w) || isNaN(p) || w < 20 || w > 500 || p < 0 || p > 100) {
+				alert("Invalid values");
+				return;
+			}
+			let target = (w - 20) / 2 * (p / 100);
+			resetWeight();
+			const availableWeights = [25, 20, 15, 10, 5, 0.5, 0.25];
+			for (let i = 0; i < availableWeights.length; i++) {
+				while (target >= availableWeights[i]) {
+					addWeight(availableWeights[i]);
+					target -= availableWeights[i];
+					target = Math.round(target * 100) / 100; // avoid floating point issues
+				}
+			}
+		}
+
+		function getColor(weight) {
+			const colorMap = {
+				0.25: [getComputedStyle(document.documentElement).getPropertyValue('--gray') || "#333", "white"],
+				0.5: [getComputedStyle(document.documentElement).getPropertyValue('--gray') || "#333", "white"],
+				5: [getComputedStyle(document.documentElement).getPropertyValue('--white') || "#ffffff", "black"],
+				10: [getComputedStyle(document.documentElement).getPropertyValue('--green') || "#2ecc71", "white"],
+				15: [getComputedStyle(document.documentElement).getPropertyValue('--yellow') || "#f39c12", "white"],
+				20: [getComputedStyle(document.documentElement).getPropertyValue('--blue') || "#3498db", "white"],
+				25: [getComputedStyle(document.documentElement).getPropertyValue('--red') || "#e74c3c", "white"]
+			};
+			return colorMap[weight] || colorMap[5];
+		}
+
 		function draw() {
 			if (canvas.getContext) {
 				const ctx = canvas.getContext("2d");
@@ -568,18 +646,19 @@
 
 				let outX = 62;
 				weights.forEach((item, index) => {
-					let x = 62 + (index * 22);
-					ctx.fillStyle = "white";
-					ctx.fillRect(x, 50.5, 20, 80);
-					ctx.fillStyle = "black";
+					let x = 62 + (index * 32);
+					let [fillStyle, textColor] = getColor(item);
+					ctx.fillStyle = fillStyle;
+					ctx.fillRect(x, 50.5, 30, 80);
+					ctx.fillStyle = textColor;
 					ctx.font = "16px Arial";
 					ctx.textAlign = "center";
-					ctx.fillText(item.toString(), x + 10, 98);
-					outX = x+22;
+					ctx.fillText(item.toString(), x + 15, 98);
+					outX = x+32;
 				});
 
 				ctx.fillStyle = "rgb(200 200 200)";
-				let remainingWidth = 300 - weights.length * 22 - 62;
+				let remainingWidth = 300 - weights.length * 32 - 62;
 				if (remainingWidth < 0) {
 					remainingWidth = 0;
 				}
