@@ -613,7 +613,7 @@
 				alert("Invalid values");
 				return;
 			}
-			let target = (w - 20) / 2 * (p / 100);
+			let target = ((w * (p / 100) - 20) / 2);
 			resetWeight();
 			const availableWeights = [25, 20, 15, 10, 5, 0.5, 0.25];
 			for (let i = 0; i < availableWeights.length; i++) {
