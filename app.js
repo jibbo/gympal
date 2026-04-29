@@ -341,6 +341,8 @@ function getColor(weight) {
 	const colorMap = {
 		0.25: [getComputedStyle(document.documentElement).getPropertyValue('--gray') || "#333", "white"],
 		0.5: [getComputedStyle(document.documentElement).getPropertyValue('--gray') || "#333", "white"],
+		1.25: [getComputedStyle(document.documentElement).getPropertyValue('--gray') || "#333", "white"],
+		2.5: [getComputedStyle(document.documentElement).getPropertyValue('--gray') || "#333", "white"],
 		5: [getComputedStyle(document.documentElement).getPropertyValue('--white') || "#ffffff", "black"],
 		10: [getComputedStyle(document.documentElement).getPropertyValue('--green') || "#2ecc71", "white"],
 		15: [getComputedStyle(document.documentElement).getPropertyValue('--yellow') || "#f39c12", "white"],
