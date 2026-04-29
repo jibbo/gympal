@@ -1,0 +1,67 @@
+/* CSS variables for theme switching (Tailwind can reference but not declare these) */
+:root {
+	--primaryColor: #8800E7;
+	--accentColor: #9d4fff;
+	--buttonTextColor: white;
+	--bg-color: #0e0e0e;
+	--red: #e74c3c;
+	--blue: #3498db;
+	--yellow: #f39c12;
+	--green: #2ecc71;
+	--white: #ffffff;
+	--gray: #333;
+}
+
+/* Circular buttons with theme-dependent styling (JS dynamically adds this class) */
+.round {
+	width: 3em;
+	min-width: 48px;
+	height: 3em;
+	min-height: 48px;
+	border-radius: 50%;
+	text-align: center;
+	border: 2px solid var(--primaryColor);
+	background-color: var(--bg-color);
+	color: white;
+	cursor: pointer;
+	appearance: none;
+}
+
+.round:hover,
+.round:active {
+	background-color: var(--accentColor);
+	color: white;
+}
+
+/* Width constraint for weight buttons row (JS dynamically adds this class) */
+.col {
+	flex: 1 1 auto;
+	max-width: 3em;
+}
+
+/* Color override classes (static colors with !important to override button defaults) */
+.red { background-color: var(--red) !important; border: none !important; }
+.blue { background-color: var(--blue) !important; border: none !important; }
+.yellow { background-color: var(--yellow) !important; border: none !important; }
+.green { background-color: var(--green) !important; border: none !important; }
+.white { background-color: var(--white) !important; color: black !important; border: none !important; }
+.gray { background-color: var(--gray) !important; border: none !important; }
+
+/* Default button styling for dynamically created buttons */
+button {
+	font-family: 'Bebas Neue', Arial, Verdana, sans-serif;
+}
+
+/* Input styling for dynamically created inputs */
+input[type="number"] {
+	background-color: var(--bg-color);
+	color: white;
+}
+
+input[type="number"]::placeholder {
+	color: rgba(255, 255, 255, 0.4);
+}
+
+input[type="number"]:focus {
+	outline: 2px solid var(--primaryColor);
+}

@@ -23,8 +23,8 @@ function isIOS() {
 	return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document));
 }
 
-if (isIOS()) {
-	iphoneNote.classList.remove("hide");
+	if (isIOS()) {
+		iphoneNote.classList.remove("hidden");
 }
 
 // Theme
@@ -168,7 +168,7 @@ const storedTimers = supportsLocalStorage ? localStorage.getItem("timers") : [];
 let customTimers = storedTimers == null ? [] : JSON.parse(storedTimers);
 
 if (!supportsLocalStorage) {
-	standardTimers.classList.remove("hide");
+	standardTimers.classList.remove("hidden");
 }
 else if (supportsLocalStorage && (customTimers.length == 0)) {
 	saveCustomTimer(30);
@@ -251,11 +251,11 @@ if (isIOS()) {
 
 function updateAudioToggleBtn() {
 	if (audioOn == true) {
-		speakerNone.classList.add("hide");
-		speakerWave.classList.remove("hide");
+		speakerNone.classList.add("hidden");
+		speakerWave.classList.remove("hidden");
 	} else {
-		speakerNone.classList.remove("hide");
-		speakerWave.classList.add("hide")
+		speakerNone.classList.remove("hidden");
+		speakerWave.classList.add("hidden")
 	}
 }
 

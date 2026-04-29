@@ -13,110 +13,111 @@
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
 	<link rel="apple-touch-icon-precomposed" href="ios_icon.png" />
 	<link rel="manifest" href="manifest.json">
-	<link rel="stylesheet" href="styles.css">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="style.css" rel="stylesheet">
 </head>
 
-<body>
-	<header>
-		<h1>Gym Pal</h1>
+<body class="min-h-screen text-white scrollbar-hide bg-[var(--bg-color)]" style="touch-action: manipulation;">
+	<header class="w-full text-center py-4 border-b border-white/10">
+		<h1 class="text-3xl tracking-wider font-bold">Gym Pal</h1>
 	</header>
-	<main>
-		<span id="audio" style="display:none">
+	<main class="flex-1 flex flex-col">
+		<span id="audio" class="hidden">
 			<audio id="alarmSound">
 				<source src="digital_watch_alarm_long.ogg" type="audio/ogg">
 				Your browser does not support the audio element.
 			</audio>
 		</span>
-		<div class="row">
-			<section id="output">
-				<h4>SETS</h4>
-				<div class="center">
-					<span id="setsSpan" class="headline"></span> completed
+
+		<!-- Row 1: Output + Timer -->
+		<div class="flex flex-col lg:flex-row gap-4 p-2">
+			<section id="output" class="flex-1 bg-[#1a1a1a] rounded-xl p-4 min-w-[280px]">
+				<h4 class="text-lg text-white/60 mb-2 font-bold">SETS</h4>
+				<div class="text-center">
+					<p><span id="setsSpan" class="text-[96pt] font-bold leading-none text-center block"></span> completed</p>
 				</div>
-				<div class="controls" style="margin-top:1em">
-					<button onClick="resetSets()">RESET</button>
-					<button onClick="incSets()">+1</button>
+				<div class="flex gap-2 mt-4">
+					<button onClick="resetSets()" class="py-3 px-6 rounded-lg font-bold text-xl">RESET</button>
+					<button onClick="incSets()" class="py-3 px-6 rounded-lg font-bold text-xl">+1</button>
 				</div>
 			</section>
-			<section id="timer">
-				<h4>Active Timer</h4>
-				<div class="center">
-					<p><span id="timerSpan" class="headline"></span></p>
+
+			<section id="timer" class="flex-1 bg-[#1a1a1a] rounded-xl p-4 min-w-[280px]">
+				<h4 class="text-lg text-white/60 mb-2 font-bold">Active Timer</h4>
+				<div class="text-center">
+					<p><span id="timerSpan" class="text-[96pt] font-bold leading-none text-center block"></span></p>
 				</div>
-				<div class="controls">
-					<button onClick="clearTimer()">STOP</button>
-					<button id="audioToggle" onClick="toggleAudio()">
-						<svg id="speakerWave" class="hide" style="max-width:0.8em" xmlns="http://www.w3.org/2000/svg"
-							fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round"
-								d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+				<div class="flex items-center justify-center gap-2 mt-4 flex-col">
+					<button onClick="clearTimer()" class="py-3 px-8 rounded-lg font-bold text-xl">STOP</button>
+					<button id="audioToggle" onClick="toggleAudio()" class="py-3 px-6 rounded-lg font-bold text-xl">
+						<svg id="speakerWave" class="hidden w-6 h-6 inline-block mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
 						</svg>
-						<svg id="speakerNone" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-							stroke-width="1.5" stroke="currentColor" class="" style="max-width:0.8em">
-							<path stroke-linecap="round" stroke-linejoin="round"
-								d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+						<svg id="speakerNone" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline-block mr-1">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
 						</svg>
 					</button>
-					<p id="iphoneNote" class="hide center"><i>To use audio on iPhone/iPad you must first click on the
-							audio icon and then use the stop button to mute the sound immediately</i></p>
+				</div>
+				<p id="iphoneNote" class="hidden text-center text-sm mt-2 font-sans"><i>To use audio on iPhone/iPad you must first click on the audio icon and then use the stop button to mute the sound immediately</i></p>
+			</section>
+		</div>
+
+		<!-- Row 2: PinnedTimers + Weights + BarLoader -->
+		<div class="flex flex-col lg:flex-row gap-4 p-2">
+			<section id="pinnedTimers" class="flex-1 bg-[#1a1a1a] rounded-xl p-4 min-w-[280px]">
+				<h4 class="text-lg text-white/60 mb-2 font-bold">Pinned Timers</h4>
+				<div id="customTimers" class="flex gap-2 justify-center flex-wrap"></div>
+				<div id="standardTimers" class="hidden">
+					<button class="round col" onClick="startTimer(30)">30s</button>
+					<button class="round col" onClick="startTimer(60)">1m</button>
+					<button class="round col" onClick="startTimer(90)">1:30</button>
+					<button class="round col" onClick="startTimer(120)">2m</button>
+					<button class="round col" onClick="startTimer(180)">3m</button>
 				</div>
 			</section>
-			</div>
-			<div class="row">
-			<section id="pinnedTimers">
-				<h4>Pinned Timers</h4>
-				<div id="customTimers" class="center row">
-					<button id="addTimer" class="round border-dashed col" onClick="addTimer()">+</button>
+
+			<section id="weights" class="flex-1 bg-[#1a1a1a] rounded-xl p-4 min-w-[280px]">
+				<h4 class="text-lg text-white/60 mb-2 font-bold">Weights counter (beta)</h4>
+				<canvas id="canvas" class="w-full max-w-[300px] h-auto rounded-lg" width="300" height="150"></canvas>
+				<div class="text-center mt-2 text-lg">
+					<p><span id="totalWeight" class="font-bold"></span>Kg</p>
 				</div>
-				<div id="standardTimers" class="hide">
-					<button class="round col" onClick="startTimer(30)">30 sec</button>
-					<button class="round col" onClick="startTimer(60)">1 min</button>
-					<button class="round col" onClick="startTimer(90)">1:30 min</button>
-					<button class="round col" onClick="startTimer(120)">2 min</button>
-					<button class="round col" onClick="startTimer(180)">3 min</button>
+				<div class="flex justify-center mt-4 mb-2">
+					<button onClick="resetWeight()" class="py-3 px-8 rounded-lg font-bold text-xl">RESET</button>
 				</div>
-			</section>
-			<section id="weights">
-				<h4>Weights counter (beta)</h4>
-				<canvas id="canvas" width="300" height="150"></canvas>
-				<div class="row">
-					<p><span id="totalWeight" class="headline"></span>Kg</p>
-				</div>
-				<div class="row controls" style="margin-bottom: 1em;">
-					<button onClick="resetWeight()">RESET</button>
-				</div>
-				<div class="row">
-					<button class="round col gray" onClick="addWeight(0.25)">0.25kg</button>
-					<button class="round col gray" onClick="addWeight(0.5)">0.5kg</button>
-					<button class="round col gray" onClick="addWeight(1.25)">1.25kg</button>
-					<button class="round col gray" onClick="addWeight(2.5)">2.5kg</button>
-					<button class="round col white" onClick="addWeight(5)">5kg</button>
-					<button class="round col green" onClick="addWeight(10)">10kg</button>
-					<button class="round col yellow" onClick="addWeight(15)">15kg</button>
-					<button class="round col blue" onClick="addWeight(20)">20kg</button>
-					<button class="round col red" onClick="addWeight(25)">25kg</button>
+				<div class="flex gap-2 justify-center flex-wrap">
+					<button class="round col gray" onClick="addWeight(0.25)">0.25</button>
+					<button class="round col gray" onClick="addWeight(0.5)">0.5</button>
+					<button class="round col gray" onClick="addWeight(1.25)">1.25</button>
+					<button class="round col gray" onClick="addWeight(2.5)">2.5</button>
+					<button class="round col white" onClick="addWeight(5)">5</button>
+					<button class="round col green" onClick="addWeight(10)">10</button>
+					<button class="round col yellow" onClick="addWeight(15)">15</button>
+					<button class="round col blue" onClick="addWeight(20)">20</button>
+					<button class="round col red" onClick="addWeight(25)">25</button>
 				</div>
 			</section>
-			<section id="BarLoader">
-				<h4>Load weights into the bar</h4>
-				<div class="row controls" style="margin-bottom: 1em;">
-					<input id="weight" type="number" step="0.25" min="20" max="550" placeholder="how much you want to load?" />
-					<input id="percentWeight" type="number" step="0.25" min="0" max="100" placeholder="% of the weight you want to load (Example: 70% of 100kg = 70kg)" />
+
+			<section id="BarLoader" class="flex-1 bg-[#1a1a1a] rounded-xl p-4 min-w-[280px]">
+				<h4 class="text-lg text-white/60 mb-2 font-bold">Load weights into the bar</h4>
+				<div class="flex gap-2 justify-center flex-wrap mb-4">
+					<input id="weight" type="number" step="0.25" min="20" max="550" placeholder="how much you want to load?" class="py-2 px-3 rounded-lg flex-1 min-w-[140px]" />
+					<input id="percentWeight" type="number" step="0.25" min="0" max="100" placeholder="% of weight (e.g. 70%)" class="py-2 px-3 rounded-lg flex-1 min-w-[140px]" />
 				</div>
-				<div class="row controls" style="margin-bottom: 1em;">
-					<button onClick="loadWeight()">Load</button>
+				<div class="flex justify-center">
+					<button onClick="loadWeight()" class="py-3 px-8 rounded-lg font-bold text-xl">Load</button>
 				</div>
 			</section>
 		</div>
 	</main>
-	<footer>
-		<div class="row">
-			<h4 style="width:100%">Theme</h4>
-			<button class="round col" style="background-color:#cfff04;border:none;" onclick="setGreenTheme()"></button>
-			<button class="round col" style="background-color:#8800e7;border:none;" onclick="setPurpleTheme()"></button>
-			<button class="round col" style="background-color:#ee7620;border:none;" onclick="setOrangeTheme()"></button>
+
+	<footer class="w-full text-center border-t border-white/10 pt-4 pb-6">
+		<div class="flex gap-3 justify-center">
+			<button class="w-10 h-10 rounded-full cursor-pointer appearance-none border-2 border-transparent" style="background-color:#cfff04;border:none;" onclick="setGreenTheme()"></button>
+			<button class="w-10 h-10 rounded-full cursor-pointer appearance-none border-2 border-transparent" style="background-color:#8800e7;border:none;" onclick="setPurpleTheme()"></button>
+			<button class="w-10 h-10 rounded-full cursor-pointer appearance-none border-2 border-transparent" style="background-color:#ee7620;border:none;" onclick="setOrangeTheme()"></button>
 		</div>
-		<p>Created with &lt3 by Jibbo</p>
+		<p class="mt-4 text-white/40 font-sans text-sm">Created with &lt;3 by Jibbo</p>
 	</footer>
 	<script src="app.js"></script>
 </body>
